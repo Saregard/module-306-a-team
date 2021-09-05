@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:973546314500:android:17177b140521ebb1450e51",
+        "mobilesdk_app_id": "1:973546314500:android:407905fa143c627c450e51",
         "android_client_info": {
-          "package_name": "com.example.quizkampen"
+          "package_name": "se.linerotech.quizkampen"
         }
       },
       "oauth_client": [
