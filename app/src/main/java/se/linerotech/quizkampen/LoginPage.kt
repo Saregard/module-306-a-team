@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginPage : AppCompatActivity() {
 
@@ -13,6 +14,7 @@ class LoginPage : AppCompatActivity() {
     private var editTextPassword: EditText? = null
     private var loginButton: Button? = null
     private var forgotPasswordTextView: TextView? = null
+
 
 
 
@@ -24,8 +26,8 @@ class LoginPage : AppCompatActivity() {
         editTextPassword = findViewById(R.id.editTextPassword)
         loginButton = findViewById(R.id.buttonLogin)
         forgotPasswordTextView = findViewById(R.id.textViewForgotPassword)
-
-        loginButton?.setOnClickListener{
+        val userAuthentication = FirebaseAuth.getInstance()
+                loginButton?.setOnClickListener{
             Log.d("MainActivity", "Button Clicked")
         }
 

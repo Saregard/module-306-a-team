@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973546314500:android:1064aeee1ed345aa450e51",
+        "android_client_info": {
+          "package_name": "se.linerotech.quizkampen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973546314500-bagn1tgt6vbbfnsbbc1krf0urrsk3bcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwCg9V2TShmF57Mhfq0PcGC3dX7W-8PF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973546314500-bagn1tgt6vbbfnsbbc1krf0urrsk3bcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
