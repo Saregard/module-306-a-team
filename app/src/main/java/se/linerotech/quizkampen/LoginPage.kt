@@ -1,5 +1,6 @@
 package se.linerotech.quizkampen
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +14,7 @@ class LoginPage : AppCompatActivity() {
     private var editTextEmail: EditText? = null
     private var editTextPassword: EditText? = null
     private var loginButton: Button? = null
-    private var forgotPasswordTextView: TextView? = null
+    private var buttonClickToCreateAccount: Button? = null
 
 
 
@@ -25,14 +26,17 @@ class LoginPage : AppCompatActivity() {
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         loginButton = findViewById(R.id.buttonLogin)
-        forgotPasswordTextView = findViewById(R.id.textViewForgotPassword)
+        buttonClickToCreateAccount = findViewById(R.id.buttonlickToCreateAccount)
         val userAuthentication = FirebaseAuth.getInstance()
                 loginButton?.setOnClickListener{
             Log.d("MainActivity", "Button Clicked")
         }
 
-        forgotPasswordTextView?.setOnClickListener{
-            Log.d("MainActivity", "Forgot Password Clicked")
+        buttonClickToCreateAccount?.setOnClickListener{
+            Log.d("MainActivity", "Create account")
+            val intent = Intent(this, CreateAccount::class.java)
+            startActivity(intent)
         }
+
     }
 }

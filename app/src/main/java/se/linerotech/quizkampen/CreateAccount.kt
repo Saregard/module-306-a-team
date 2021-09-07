@@ -1,7 +1,9 @@
 package se.linerotech.quizkampen
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 
@@ -17,5 +19,13 @@ class CreateAccount : AppCompatActivity() {
         myPassword = findViewById(R.id.editTextSignUpPassword)
         myEmail = findViewById(R.id.editTextSignUpEmail)
 
+        mySignUpButton?.setOnClickListener{
+            Log.d("MainActivity", "Create account")
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
+
 }
