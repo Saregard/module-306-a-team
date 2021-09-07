@@ -33,6 +33,9 @@ class CreateAccount : AppCompatActivity() {
                     Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
+                        if (!auth.currentUser!!.isEmailVerified) {
+                            auth.currentUser!!.sendEmailVerification()
+                        }
                         val intent = Intent(this, LoginPage::class.java)
                         Log.d("Sign in", "createUserWithEmail:success")
                         startActivity(intent)
