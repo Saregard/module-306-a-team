@@ -35,6 +35,7 @@ class CreateAccount : AppCompatActivity() {
                     Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
+
                             auth.currentUser!!.sendEmailVerification()
 
                         val intent = Intent(this, LoginPage::class.java)
