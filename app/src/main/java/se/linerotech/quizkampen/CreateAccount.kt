@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CreateAccount : AppCompatActivity() {
@@ -25,6 +26,7 @@ class CreateAccount : AppCompatActivity() {
         myEmail = findViewById(R.id.editTextSignUpEmail)
         val auth = Firebase.auth
 
+
         mySignUpButton?.setOnClickListener{
             Toast.makeText(this, myEmail?.text.toString(), Toast.LENGTH_SHORT).show()
 
@@ -33,7 +35,8 @@ class CreateAccount : AppCompatActivity() {
                     Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        auth.currentUser!!.sendEmailVerification()
+
+                            auth.currentUser!!.sendEmailVerification()
 
                         val intent = Intent(this, LoginPage::class.java)
                         Log.d("Sign in", "createUserWithEmail:success")
