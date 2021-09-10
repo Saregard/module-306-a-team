@@ -8,12 +8,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
  class ProfilePage : AppCompatActivity() {
-    val db = Firebase.firestore
-     val auth = Firebase.auth
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_page)
-        
+
         db.collection("users")
             .add("1" to 1)
             .addOnSuccessListener { documentReference ->

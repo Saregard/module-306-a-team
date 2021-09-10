@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Developement/Projects/module-306-a-team/app/src/main/res/layout/activity_create_account.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android Developement/Projects/module-306-a-team/app/src/main/res/layout/activity_login_page.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android Developement/Projects/module-306-a-team/app/src/main/res/layout/activity_profile_page.xml" value="0.36666666666666664" />
         <entry key="..\:/Android Programming/Github/module-306-a-team/app/src/main/res/layout/activity_login_page.xml" value="0.23143115942028986" />
         <entry key="..\:/Android Programming/Github/module-306-a-team/app/src/main/res/layout/activity_main.xml" value="0.2504528985507246" />
       </map>

@@ -7,16 +7,13 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CreateAccount : AppCompatActivity() {
     private var mySignUpButton: Button? = null
     private var myPassword: EditText? = null
     private var myEmail: EditText? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +22,6 @@ class CreateAccount : AppCompatActivity() {
         myPassword = findViewById(R.id.editTextSignUpPassword)
         myEmail = findViewById(R.id.editTextSignUpEmail)
         val auth = Firebase.auth
-
 
         mySignUpButton?.setOnClickListener{
             Toast.makeText(this, myEmail?.text.toString(), Toast.LENGTH_SHORT).show()
@@ -57,5 +53,8 @@ class CreateAccount : AppCompatActivity() {
 
 
     }
+
+    //TODO create function
+
 
 }
