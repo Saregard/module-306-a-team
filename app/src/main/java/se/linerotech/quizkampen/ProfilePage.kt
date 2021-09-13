@@ -1,28 +1,89 @@
  package se.linerotech.quizkampen
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
+import com.example.myquizgame.Backends.GetQuestions
+import com.example.myquizgame.RetrofitClient
+import com.example.myquizgame.models.Qustions
+import com.example.myquizgame.models.Result
+import com.example.myquizgame.models.Token
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import se.linerotech.quizkampen.GamePlayActivity.Companion.QUIZ_DATA
 
  class ProfilePage : AppCompatActivity() {
     private val db = Firebase.firestore
     private val auth = Firebase.auth
+     private var myButtonPlay: Button?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_page)
 
-        db.collection("users")
-            .add("1" to 1)
-            .addOnSuccessListener { documentReference ->
-                Toast.makeText(this, "Susses data base", Toast.LENGTH_SHORT).show()
+        myButtonPlay=findViewById(R.id.buttonPlay)
+        myButtonPlay?.setOnClickListener {
 
-            }
-            .addOnFailureListener { e ->
+            getMyToken()
 
-            }
+        }
     }
-}
+     private fun getMyToken() {
+         RetrofitClient
+             .instance
+             .getToken("request")
+             .enqueue(object : Callback<Token> {
+                 override fun onResponse(
+                     call: Call<Token>,
+                     response: Response<Token>
+                 ) {
+                     if (response.isSuccessful) {
+
+                         getQuestions(response.body()!!.token)
+
+                     }
+                 }
+                 override fun onFailure(call: Call<Token>, t: Throwable) {
+
+                 }
+             })
+     }
+     private fun getQuestions(myToken:String) {
+         GetQuestions
+             .instance
+             .getQuestions("10",myToken)
+             .enqueue(object : Callback<Qustions> {
+                 override fun onResponse(
+                     call: Call<Qustions>,
+                     response: Response<Qustions>
+                 ) {
+                     if (response.isSuccessful) {
+
+                         val listOfRepos = response.body()?.results as? ArrayList<Result>
+                         listOfRepos?.let {
+                             val intent = Intent(this@ProfilePage, GamePlayActivity::class.java)
+                             intent.putParcelableArrayListExtra(
+                                 QUIZ_DATA,
+                                 it
+                             )
+                             startActivity(intent)
+                         }
+
+
+                     }
+                 }
+
+                 override fun onFailure(call: Call<Qustions>, t: Throwable) {
+
+                 }
+             })
+     }
+
+
+ }
