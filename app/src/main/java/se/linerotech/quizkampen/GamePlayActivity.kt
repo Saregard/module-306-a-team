@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
@@ -11,10 +12,6 @@ import com.example.myquizgame.models.Result
 
 class GamePlayActivity : AppCompatActivity() {
     private var myTextViewQuestion: TextView? = null
-    private var mygamePlayCardViewAnswerA: CardView? = null
-    private var mygamePlayCardViewAnswerB: CardView? = null
-    private var mygamePlayCardViewAnswerC: CardView? = null
-    private var mygamePlayCardViewAnswerD: CardView? = null
     private var myTextViewAnswerA: TextView? = null
     private var myTextViewAnswerB: TextView? = null
     private var myTextViewAnswerC: TextView? = null
@@ -22,10 +19,10 @@ class GamePlayActivity : AppCompatActivity() {
     private var myTextViewRandomOne: TextView? = null
     private var myTextViewRandomSecond: TextView? = null
     private var myQuestionNumber: TextView? = null
-    private var myNextQuestionButton: Button? = null
+    private var myNextQuestionButton: TextView? = null
     private lateinit var listOfMyRepos: List<Result>
     private var onclickedQuestion = 0
-    private var myTimer: TextView? = null
+    private var myTimer: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +32,9 @@ class GamePlayActivity : AppCompatActivity() {
         myTextViewAnswerB = findViewById(R.id.textViewAnswerB)
         myTextViewAnswerC = findViewById(R.id.textViewAnswerC)
         myTextViewAnswerD = findViewById(R.id.textViewAnswerD)
-        mygamePlayCardViewAnswerA = findViewById(R.id.gamePlayCardViewAnswerA)
-        mygamePlayCardViewAnswerB = findViewById(R.id.gamePlayCardViewAnswerB)
-        mygamePlayCardViewAnswerC = findViewById(R.id.gamePlayCardViewAnswerC)
-        mygamePlayCardViewAnswerD = findViewById(R.id.gamePlayCardViewAnswerD)
         myQuestionNumber = findViewById(R.id.questionNumber)
 
-        myTimer = findViewById(R.id.textViewTimer)
+        myTimer = findViewById(R.id.progress_bar)
         myNextQuestionButton = findViewById(R.id.nextQuestionButton)
 
         //getMyToken()
@@ -62,10 +55,6 @@ class GamePlayActivity : AppCompatActivity() {
                 myTextViewAnswerB?.isVisible = true
                 myTextViewAnswerC?.isVisible = true
                 myTextViewAnswerD?.isVisible = true
-                mygamePlayCardViewAnswerA?.isVisible = true
-                mygamePlayCardViewAnswerB?.isVisible = true
-                mygamePlayCardViewAnswerC?.isVisible = true
-                mygamePlayCardViewAnswerD?.isVisible = true
                 myTimer?.isVisible = true
                 myTextViewRandomOne?.text =
                     "Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}"
@@ -117,9 +106,9 @@ class GamePlayActivity : AppCompatActivity() {
 
                         }
 
-                        myTimer?.text =
+                        myTimer?.progressDrawable
                             "Time left to answer: " + (millisUntilFinished / 1000).toString()
-                        myNextQuestionButton?.isVisible = false
+                        myNextQuestionButton?.isVisible = true
                     }
 
                     override fun onFinish() {
@@ -188,10 +177,6 @@ class GamePlayActivity : AppCompatActivity() {
     private fun Start() {
         myQuestionNumber?.text = "Finished Questions:0"
         myTimer?.isVisible = false
-        mygamePlayCardViewAnswerA?.isVisible = false
-        mygamePlayCardViewAnswerB?.isVisible = false
-        mygamePlayCardViewAnswerC?.isVisible = false
-        mygamePlayCardViewAnswerD?.isVisible = false
         myNextQuestionButton?.isVisible = true
         myNextQuestionButton?.text = "Start Quiz"
     }

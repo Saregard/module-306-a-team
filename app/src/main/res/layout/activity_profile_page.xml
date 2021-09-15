@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#272343"
+    android:orientation="vertical">
+
     <Button
-        android:id="@+id/buttonPlay"
+        android:id="@+id/buttonplay"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="Start Play"/>
+        android:layout_height="50dp"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
+        android:text="Play"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:paddingTop="14dp"
+        android:layout_marginTop="20dp" />
+
 
 </LinearLayout>
