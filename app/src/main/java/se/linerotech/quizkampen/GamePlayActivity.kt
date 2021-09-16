@@ -3,39 +3,27 @@ package se.linerotech.quizkampen
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Button
-import android.widget.ProgressBar
+
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import com.example.myquizgame.models.Result
+import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
+import se.linerotech.quizkampen.databinding.ActivityGamePlayBinding
 
 class GamePlayActivity : AppCompatActivity() {
-    private var myTextViewQuestion: TextView? = null
-    private var myTextViewAnswerA: TextView? = null
-    private var myTextViewAnswerB: TextView? = null
-    private var myTextViewAnswerC: TextView? = null
-    private var myTextViewAnswerD: TextView? = null
+
+
+    private lateinit var binding: ActivityGamePlayBinding
     private var myTextViewRandomOne: TextView? = null
     private var myTextViewRandomSecond: TextView? = null
-    private var myQuestionNumber: TextView? = null
-    private var myNextQuestionButton: TextView? = null
     private lateinit var listOfMyRepos: List<Result>
     private var onclickedQuestion = 0
-    private var myTimer: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game_play)
-        myTextViewQuestion = findViewById(R.id.textViewQuestion)
-        myTextViewAnswerA = findViewById(R.id.textViewAnswerA)
-        myTextViewAnswerB = findViewById(R.id.textViewAnswerB)
-        myTextViewAnswerC = findViewById(R.id.textViewAnswerC)
-        myTextViewAnswerD = findViewById(R.id.textViewAnswerD)
-        myQuestionNumber = findViewById(R.id.questionNumber)
+        binding = ActivityGamePlayBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        myTimer = findViewById(R.id.progress_bar)
-        myNextQuestionButton = findViewById(R.id.nextQuestionButton)
 
         //getMyToken()
         Start()
@@ -46,16 +34,19 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun questionPreview(theQuestion: ArrayList<Result>, items: Int) {
-        myNextQuestionButton?.setOnClickListener {
+        binding.nextQuestionButton.setOnClickListener {
             if (onclickedQuestion > theQuestion.size) {
-                myNextQuestionButton?.isVisible = false
+                binding.nextQuestionButton.isVisible = false
             } else {
 
-                myTextViewAnswerA?.isVisible = true
-                myTextViewAnswerB?.isVisible = true
-                myTextViewAnswerC?.isVisible = true
-                myTextViewAnswerD?.isVisible = true
-                myTimer?.isVisible = true
+
+                binding.textViewAnswerA.isVisible = true
+                binding.textViewAnswerB.isVisible = true
+                binding.textViewAnswerC.isVisible = true
+                binding.textViewAnswerD.isVisible = true
+               
+                binding.textViewTimer.isVisible = true
+
                 myTextViewRandomOne?.text =
                     "Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}"
                 val allRandom = randomAnswer(
@@ -70,63 +61,67 @@ class GamePlayActivity : AppCompatActivity() {
                 val timer = object : CountDownTimer(12000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
 
-                        myTextViewQuestion?.text = theQuestion[onclickedQuestion].question
+                        binding.textViewQuestion.text = theQuestion[onclickedQuestion].question
                             .replace(myRegex, toChar.toString())
                             .replace(myRegex39, "'")
 
                         if (theQuestion[onclickedQuestion].incorrect_answers.size > 2) {
-                            myTextViewAnswerA?.text =
+                            binding.textViewAnswerA.text =
                                 allRandom[0]
                                     .replace(myRegex, toChar.toString())
                                     .replace(myRegex39, "'")
-                            myTextViewAnswerB?.text =
+                            binding.textViewAnswerB.text =
                                 allRandom[1]
                                     .replace(myRegex, toChar.toString())
                                     .replace(myRegex39, "'")
-                            myTextViewAnswerC?.text =
+                            binding.textViewAnswerC.text =
                                 allRandom[2]
                                     .replace(myRegex, toChar.toString())
                                     .replace(myRegex39, "'")
-                            myTextViewAnswerD?.text =
+                            binding.textViewAnswerD.text =
                                 allRandom[3]
                                     .replace(myRegex, toChar.toString())
                                     .replace(myRegex39, "'")
 
                         } else {
-                            myTextViewAnswerA?.text =
+                            binding.textViewAnswerA.text =
                                 theQuestion[onclickedQuestion].incorrect_answers[0]
                                     .replace(myRegex, toChar.toString())
                                     .replace(myRegex39, "'")
-                            myTextViewAnswerB?.text = theQuestion[onclickedQuestion].correct_answer
-                                .replace(myRegex, toChar.toString())
-                                .replace(myRegex39, "'")
-                            myTextViewAnswerC?.isVisible = false
-                            myTextViewAnswerD?.isVisible = false
+                            binding.textViewAnswerB.text =
+                                theQuestion[onclickedQuestion].correct_answer
+                                    .replace(myRegex, toChar.toString())
+                                    .replace(myRegex39, "'")
+                            binding.textViewAnswerC.isVisible = false
+                            binding.textViewAnswerD.isVisible = false
 
 
                         }
 
-                        myTimer?.progressDrawable
+
+                        binding.textViewTimer.text =
                             "Time left to answer: " + (millisUntilFinished / 1000).toString()
-                        myNextQuestionButton?.isVisible = true
+                        binding.nextQuestionButton.isVisible = false
+
                     }
 
                     override fun onFinish() {
                         onclickedQuestion++
-                        myNextQuestionButton?.text = "Next Question"
-                        myNextQuestionButton?.isVisible = true
-                        myQuestionNumber?.text = "Finished Questions:$items / $onclickedQuestion"
-                        myTextViewAnswerA?.isVisible = false
-                        myTextViewAnswerB?.isVisible = false
-                        myTextViewAnswerC?.isVisible = false
-                        myTextViewAnswerD?.isVisible = false
-                        myTimer?.isVisible = false
+                        binding.nextQuestionButton.text = "Next Question"
+                        binding.nextQuestionButton.isVisible = true
+                        binding.questionNumber.text =
+                            "Finished Questions:$items / $onclickedQuestion"
+                        binding.textViewAnswerA.isVisible = false
+                        binding.textViewAnswerB.isVisible = false
+                        binding.textViewAnswerC.isVisible = false
+                        binding.textViewAnswerD.isVisible = false
+                        binding.textViewTimer.isVisible = false
 
                         when (allRandom.last()) {
-                            "0" -> myTextViewAnswerA?.isVisible = true
-                            "1" -> myTextViewAnswerB?.isVisible = true
-                            "2" -> myTextViewAnswerC?.isVisible = true
-                            "3" -> myTextViewAnswerD?.isVisible = true
+                            "0" -> binding.textViewAnswerA.isVisible = true
+                            "1" -> binding.textViewAnswerB.isVisible = true
+                            "2" -> binding.textViewAnswerC.isVisible = true
+                            "3" -> binding.textViewAnswerD.isVisible = true
                         }
 
 
@@ -175,10 +170,16 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun Start() {
-        myQuestionNumber?.text = "Finished Questions:0"
-        myTimer?.isVisible = false
-        myNextQuestionButton?.isVisible = true
-        myNextQuestionButton?.text = "Start Quiz"
+
+        binding.questionNumber.text = "Finished Questions:0"
+        binding.textViewTimer.isVisible = false
+        binding.gamePlayCardViewAnswerA.isVisible = false
+        binding.gamePlayCardViewAnswerB.isVisible = false
+        binding.gamePlayCardViewAnswerC.isVisible = false
+        binding.gamePlayCardViewAnswerD.isVisible = false
+        binding.nextQuestionButton.isVisible = true
+        binding.nextQuestionButton.text = "Start Quiz"
+
     }
 
     companion object {

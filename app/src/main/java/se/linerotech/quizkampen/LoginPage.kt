@@ -4,34 +4,27 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import se.linerotech.quizkampen.databinding.ActivityLoginPageBinding
 
 class LoginPage : AppCompatActivity() {
 
-    private var editTextEmail: EditText? = null
-    private var editTextPassword: EditText? = null
-    private var loginButton: Button? = null
-    private var buttonClickToCreateAccount: Button? = null
+    private lateinit var binding: ActivityLoginPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_page)
-        editTextEmail = findViewById(R.id.editTextEmail)
-        editTextPassword = findViewById(R.id.editTextPassword)
-        loginButton = findViewById(R.id.buttonLogin)
-        buttonClickToCreateAccount = findViewById(R.id.buttonlickToCreateAccount)
+        binding = ActivityLoginPageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         authentication()
         clicklistener()
      }
 
     private fun authentication(){
         val auth = Firebase.auth
-        loginButton?.setOnClickListener{
-            auth.signInWithEmailAndPassword(editTextEmail?.text.toString(), editTextPassword?.text.toString())
+        binding.buttonLogin.setOnClickListener{
+            auth.signInWithEmailAndPassword(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
 
@@ -59,7 +52,7 @@ class LoginPage : AppCompatActivity() {
     }
 
     private fun clicklistener(){
-        buttonClickToCreateAccount?.setOnClickListener{
+        binding.buttonlickToCreateAccount.setOnClickListener{
             Log.d("MainActivity", "Create account")
             val intent = Intent(this, CreateAccount::class.java)
             startActivity(intent)
