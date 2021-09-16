@@ -3,8 +3,6 @@ package se.linerotech.quizkampen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
@@ -17,18 +15,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import se.linerotech.quizkampen.GamePlayActivity.Companion.QUIZ_DATA
+import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
 
 class ProfilePage : AppCompatActivity() {
+
+    private lateinit var binding: ActivityProfilePageBinding
     private val db = Firebase.firestore
     private val auth = Firebase.auth
-    private var myButtonPlay: Button? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_page)
+        binding = ActivityProfilePageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        myButtonPlay = findViewById(R.id.buttonPlay)
-        myButtonPlay?.setOnClickListener {
+        binding.buttonPlay.setOnClickListener {
 
             getMyToken()
 
