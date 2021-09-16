@@ -8,12 +8,12 @@ import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
+import com.google.android.gms.common.api.Response
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Response
 import se.linerotech.quizkampen.GamePlayActivity.Companion.QUIZ_DATA
 import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
 
@@ -41,10 +41,7 @@ class ProfilePage : AppCompatActivity() {
             .instance
             .getToken("request")
             .enqueue(object : Callback<Token> {
-                override fun onResponse(
-                    call: Call<Token>,
-                    response: Response<Token>
-                ) {
+                override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
                     if (response.isSuccessful) {
 
                         getQuestions(response.body()!!.token)
@@ -55,6 +52,8 @@ class ProfilePage : AppCompatActivity() {
                 override fun onFailure(call: Call<Token>, t: Throwable) {
 
                 }
+
+
             })
     }
 
@@ -66,7 +65,7 @@ class ProfilePage : AppCompatActivity() {
             .enqueue(object : Callback<Qustions> {
                 override fun onResponse(
                     call: Call<Qustions>,
-                    response: Response<Qustions>
+                    response: retrofit2.Response<Qustions>
                 ) {
                     if (response.isSuccessful) {
 

@@ -3,6 +3,7 @@ package se.linerotech.quizkampen
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.example.myquizgame.models.Result
@@ -10,6 +11,7 @@ import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
 import se.linerotech.quizkampen.databinding.ActivityGamePlayBinding
 
 class GamePlayActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityGamePlayBinding
     private var myTextViewRandomOne: TextView? = null
@@ -21,6 +23,7 @@ class GamePlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         //getMyToken()
         Start()
@@ -36,15 +39,14 @@ class GamePlayActivity : AppCompatActivity() {
                 binding.nextQuestionButton.isVisible = false
             } else {
 
+
                 binding.textViewAnswerA.isVisible = true
                 binding.textViewAnswerB.isVisible = true
                 binding.textViewAnswerC.isVisible = true
                 binding.textViewAnswerD.isVisible = true
-                binding.gamePlayCardViewAnswerA.isVisible = true
-                binding.gamePlayCardViewAnswerB.isVisible = true
-                binding.gamePlayCardViewAnswerC.isVisible = true
-                binding.gamePlayCardViewAnswerD.isVisible = true
+               
                 binding.textViewTimer.isVisible = true
+
                 myTextViewRandomOne?.text =
                     "Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}"
                 val allRandom = randomAnswer(
@@ -96,9 +98,11 @@ class GamePlayActivity : AppCompatActivity() {
 
                         }
 
+
                         binding.textViewTimer.text =
                             "Time left to answer: " + (millisUntilFinished / 1000).toString()
                         binding.nextQuestionButton.isVisible = false
+
                     }
 
                     override fun onFinish() {
@@ -166,6 +170,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun Start() {
+
         binding.questionNumber.text = "Finished Questions:0"
         binding.textViewTimer.isVisible = false
         binding.gamePlayCardViewAnswerA.isVisible = false
@@ -174,6 +179,7 @@ class GamePlayActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerD.isVisible = false
         binding.nextQuestionButton.isVisible = true
         binding.nextQuestionButton.text = "Start Quiz"
+
     }
 
     companion object {
