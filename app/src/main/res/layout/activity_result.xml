@@ -26,7 +26,7 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/questionNumber"
+        android:id="@+id/score"
         android:layout_width="412dp"
         android:layout_height="77dp"
         android:layout_gravity="center"
