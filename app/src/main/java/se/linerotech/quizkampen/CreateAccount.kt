@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
 
-class CreateAccount : AppCompatActivity() {
+class  CreateAccount : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateAccountBinding
 
@@ -50,6 +50,7 @@ class CreateAccount : AppCompatActivity() {
 
 
     }
+
 
     //TODO create function
 

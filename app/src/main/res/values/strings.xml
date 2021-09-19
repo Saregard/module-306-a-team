@@ -13,4 +13,8 @@
     <string name="start">Start Quiz</string>
     <string name="next">Next</string>
     <string name="quest">Question</string>
+    <string name="sign_up">sign up</string>
+    <string name="go_back">Go Back</string>
+    <string name="go_back">Go Back</string>
+    <string name="play">Play</string>
 </resources>

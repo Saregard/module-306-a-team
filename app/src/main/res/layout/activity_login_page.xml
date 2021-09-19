@@ -6,6 +6,7 @@
     android:layout_margin="20dp"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/quiz_blue"
     tools:context=".LoginPage">
 
     <TextView
@@ -16,6 +17,7 @@
         android:text="@string/quiz_2021"
         android:textAlignment="center"
         android:textSize="40sp"
+        android:textColor="#ffffff"
         tools:text="Quiz 2021" />
 
     <EditText
@@ -41,14 +43,20 @@
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:paddingTop="14dp"
         android:text="@string/Login" />
 
     <Button
         android:id="@+id/buttonlickToCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="@string/create_account" />
