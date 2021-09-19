@@ -370,7 +370,6 @@ class GamePlayActivity : AppCompatActivity() {
                 firstStart(theQuestion,items)
             }.setCancelable(false).show()
     }
-
     companion object {
         const val QUIZ_DATA= "quizData"
         const val SCORE="score"
