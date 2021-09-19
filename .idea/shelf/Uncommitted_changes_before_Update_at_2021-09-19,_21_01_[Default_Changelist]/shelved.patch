@@ -1,0 +1,551 @@
+Index: app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package se.linerotech.quizkampen\n\nimport android.content.Intent\nimport android.content.res.ColorStateList\nimport android.graphics.Color\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.os.CountDownTimer\nimport android.widget.Toast\nimport androidx.core.view.isVisible\nimport com.example.myquizgame.models.Result\nimport com.google.android.material.dialog.MaterialAlertDialogBuilder\nimport kotlinx.android.synthetic.main.activity_game_play.*\nimport se.linerotech.quizkampen.databinding.ActivityGamePlayBinding\n\nclass GamePlayActivity : AppCompatActivity() {\n\n    private lateinit var binding: ActivityGamePlayBinding\n    private lateinit var allRandom:List<String>\n    private var mySelectedItem:Pair<String,Int>?=null\n    private lateinit var timer:CountDownTimer\n    private var enableClick=false\n    private var onClickedQuestion=0\n    private var score=0\n    val regexQuot = \"&quot;\"\n    val regexUpper = \"&#039;\"\n    val toChar = '\"'\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        binding= ActivityGamePlayBinding.inflate(layoutInflater)\n        setContentView(binding.root)\n        start()\n        val listOfRepos = intent.getParcelableArrayListExtra<Result>(QUIZ_DATA)\n        listOfRepos?.let {\n            startAlert(listOfRepos,listOfRepos.size)\n\n            showQuestionsOrNot(false)\n\n\n            questionPreview(listOfRepos,listOfRepos.size)\n        }\n\n\n    }\n\n    private fun selectItem():String {\n        var selectedItem: String=\"\"\n        binding.gamePlayCardViewAnswerA.setOnClickListener {\n            if (enableClick) {\n                selectedItem = allRandom[0]\n                mySelectedItem = Pair(selectedItem, 0)\n                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.GRAY)\n                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                enableClick=false\n                timer.cancel()\n                timer.onFinish()\n            }\n        }\n        binding.gamePlayCardViewAnswerB.setOnClickListener {\n            if (enableClick) {\n                selectedItem = allRandom[1]\n                mySelectedItem = Pair(selectedItem, 1)\n                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.GRAY)\n                enableClick=false\n                timer.cancel()\n                timer.onFinish()\n            }\n        }\n        binding.gamePlayCardViewAnswerC.setOnClickListener {\n            if (enableClick) {\n                selectedItem = allRandom[2]\n                mySelectedItem = Pair(selectedItem, 2)\n                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.GRAY)\n                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                enableClick=false\n                timer.cancel()\n                timer.onFinish()\n            }\n        }\n        binding.gamePlayCardViewAnswerD.setOnClickListener {\n            if (enableClick) {\n                selectedItem = allRandom[3]\n                mySelectedItem = Pair(selectedItem, 3)\n                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.GRAY)\n                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))\n                enableClick=false\n                timer.cancel()\n                timer.onFinish()\n            }\n        }\n\n        return selectedItem\n    }\n    private fun firstStart(theQuestion:ArrayList<Result>, items:Int){\n        showQuestionsOrNot(true)\n        setBackgroundColorForQuestions(getColor(R.color.quiz_orange))\n        enableClick=true\n        binding.textViewTimer.isVisible=true\n\n        allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,\n            theQuestion[onClickedQuestion].incorrect_answers.size,\n            theQuestion[onClickedQuestion].incorrect_answers)\n\n        binding.textViewQuestion.text = theQuestion[onClickedQuestion].question\n            .replace(regexQuot, toChar.toString())\n            .replace(regexUpper, \"'\")\n\n        displayAnswers(allRandom,allRandom.size)\n        binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)\n        binding.textViewTimer.max=12\n        binding.textViewTimer.progress\n        timer = object : CountDownTimer(12000, 1000) {\n\n            override fun onTick(millisUntilFinished: Long) {\n\n                binding.textViewTimer.progress =(millisUntilFinished / 1000).toInt()\n                if (binding.textViewTimer.progress<(textViewTimer.max/3)){\n                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)\n\n                }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){\n                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)\n\n                }\n                binding.nextQuestionButton .isVisible = false\n            }\n\n            override fun onFinish() {\n                onClickedQuestion++\n                binding.nextQuestionButton.text=getString(R.string.next)\n                binding.nextQuestionButton.isVisible = true\n                binding.questionNumber.text=\"Finished Questions:$items / $onClickedQuestion\"\n                binding.textViewTimer.isVisible=false\n\n                checkItem(mySelectedItem?.second.toString(), Color.RED)\n                checkItem(allRandom.last(), Color.GREEN)\n\n                if(mySelectedItem?.second.toString()==allRandom.last()){\n                    Toast.makeText(this@GamePlayActivity, \"Congratulations , Correct answer!\", Toast.LENGTH_SHORT).show()\n                    score++\n                }\n\n\n\n\n\n            }\n        }\n        timer.start()\n        selectItem()\n\n\n    }\n    private fun questionPreview(theQuestion:ArrayList<Result>, items:Int){\n        binding.nextQuestionButton.setOnClickListener {\n            if (onClickedQuestion == theQuestion.size) {\n                binding.nextQuestionButton.isVisible = false\n                val intent= Intent(this,ResultActivity::class.java)\n                intent.putExtra(SCORE,score)\n                startActivity(intent)\n                finish()\n\n            } else {\n\n                showQuestionsOrNot(true)\n                setBackgroundColorForQuestions(getColor(R.color.quiz_orange))\n                enableClick=true\n                binding.textViewTimer.isVisible=true\n\n                allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,\n                    theQuestion[onClickedQuestion].incorrect_answers.size,\n                    theQuestion[onClickedQuestion].incorrect_answers)\n\n                binding.textViewQuestion.text = theQuestion[onClickedQuestion].question\n                    .replace(regexQuot, toChar.toString())\n                    .replace(regexUpper, \"'\")\n\n                displayAnswers(allRandom,allRandom.size)\n                binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)\n                binding.textViewTimer.max=12\n                binding.textViewTimer.progress\n\n                timer = object : CountDownTimer(12000, 1000) {\n                    override fun onTick(millisUntilFinished: Long) {\n\n                        binding.textViewTimer.progress=(millisUntilFinished / 1000).toInt()\n                        if (binding.textViewTimer.progress<(textViewTimer.max/3)){\n                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)\n\n                        }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){\n                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)\n\n                        }\n                        binding.nextQuestionButton .isVisible = false\n                    }\n\n                    override fun onFinish() {\n                        onClickedQuestion++\n                        binding.nextQuestionButton.text=getString(R.string.next)\n                        binding.nextQuestionButton.isVisible = true\n                        binding.questionNumber.text=\"Finished Questions:$items / $onClickedQuestion\"\n                        binding.textViewTimer.isVisible=false\n\n                        checkItem(mySelectedItem?.second.toString(), Color.RED)\n                        checkItem(allRandom.last(), Color.GREEN)\n\n                        if(mySelectedItem?.second.toString()==allRandom.last()){\n                            Toast.makeText(this@GamePlayActivity, \"Congratulations , Correct answer!\", Toast.LENGTH_SHORT).show()\n                            score++\n                        }\n\n\n\n\n                    }\n                }\n                timer.start()\n                selectItem()\n\n\n\n            }\n        }\n    }\n    private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {\n\n        if (numberAnswers == 5) {\n\n            binding.textViewAnswerA.text =\n                allRandom[0]\n                    .replace(regexQuot, toChar.toString())\n                    .replace(regexUpper, \"'\")\n            binding.textViewAnswerB.text =\n                allRandom[1]\n                    .replace(regexQuot, toChar.toString())\n                    .replace(regexUpper, \"'\")\n            binding.textViewAnswerC.text =\n                allRandom[2]\n                    .replace(regexQuot, toChar.toString())\n                    .replace(regexUpper, \"'\")\n            binding.textViewAnswerD.text =\n                allRandom[3]\n                    .replace(regexQuot, toChar.toString())\n                    .replace(regexUpper, \"'\")\n\n        }\n        if (numberAnswers == 3) {\n            val randomField=(0..1).random()\n            if (randomField==0){\n                binding.textViewAnswerA.text =\n                    allRandom[0]\n                        .replace(regexQuot, toChar.toString())\n                        .replace(regexUpper, \"'\")\n                binding.textViewAnswerB.text =\n                    allRandom[1]\n                        .replace(regexQuot, toChar.toString())\n                        .replace(regexUpper, \"'\")\n            } else {\n                binding.textViewAnswerA.text =\n                    allRandom[0]\n                        .replace(regexQuot, toChar.toString())\n                        .replace(regexUpper, \"'\")\n                binding.textViewAnswerB.text =\n                    allRandom[1]\n                        .replace(regexQuot, toChar.toString())\n            }\n\n            binding.textViewAnswerC.isVisible = false\n            binding.gamePlayCardViewAnswerC.isVisible = false\n            binding.textViewAnswerD.isVisible = false\n            binding.gamePlayCardViewAnswerD.isVisible = false\n\n        }\n\n    }\n    private fun randomAnswer(correctAnswer:String,amountOfQuestions:Int,questionsToGenerate:List<String>):List<String>{\n        val listOfItems= mutableListOf<String>()\n        var numberOfCorrectAnswer=0\n\n        for(i in 0..amountOfQuestions){\n            listOfItems.add(\"\")\n        }\n        numberOfCorrectAnswer=(0..amountOfQuestions).random()\n        listOfItems[numberOfCorrectAnswer] = correctAnswer\n        for (i in 0..amountOfQuestions-1) {\n\n            if (!listOfItems.contains(questionsToGenerate[i])) {\n\n                for ((index,a) in listOfItems.withIndex()){\n\n                    if (listOfItems[index].isNullOrEmpty()){\n                        listOfItems[index]=questionsToGenerate[i]\n                        break\n                    }\n                }\n\n            }\n\n        }\n\n        listOfItems.add(numberOfCorrectAnswer.toString())\n\n        return listOfItems\n    }\n    private fun showQuestionsOrNot(choice:Boolean){\n        binding.cardView.isVisible=choice\n        binding.textViewAnswerA.isVisible=choice\n        binding.textViewAnswerB.isVisible=choice\n        binding.textViewAnswerC.isVisible=choice\n        binding.textViewAnswerD.isVisible=choice\n        binding.gamePlayCardViewAnswerA.isVisible=choice\n        binding.gamePlayCardViewAnswerB.isVisible=choice\n        binding.gamePlayCardViewAnswerC.isVisible=choice\n        binding.gamePlayCardViewAnswerD.isVisible=choice\n    }\n    private fun start(){\n        binding.cardView.isVisible=false\n        binding.questionNumber.text=getString(R.string.quest)\n        binding.textViewTimer.isVisible=false\n        binding.nextQuestionButton.isVisible=false\n        binding.nextQuestionButton.text=getString(R.string.next)\n    }\n    private fun checkItem(option:String,color:Int){\n        when (option) {\n            \"0\" -> {\n                binding.textViewAnswerA.isVisible=true\n                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(color)\n                binding.gamePlayCardViewAnswerA.isVisible=true\n            }\n            \"1\" ->{\n                binding.textViewAnswerB.isVisible=true\n                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(color)\n                binding.gamePlayCardViewAnswerB.isVisible=true\n            }\n            \"2\" -> {\n                binding.textViewAnswerC.isVisible=true\n                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(color)\n                binding.gamePlayCardViewAnswerC.isVisible=true\n            }\n            \"3\" ->{\n                binding.textViewAnswerD.isVisible=true\n                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(color)\n                binding.gamePlayCardViewAnswerD.isVisible=true\n            }\n        }\n\n    }\n    private fun setBackgroundColorForQuestions(mustHaveColor:Int){\n        binding.gamePlayCardViewAnswerA.setCardBackgroundColor(mustHaveColor)\n        binding.gamePlayCardViewAnswerB.setCardBackgroundColor(mustHaveColor)\n        binding.gamePlayCardViewAnswerC.setCardBackgroundColor(mustHaveColor)\n        binding.gamePlayCardViewAnswerD.setCardBackgroundColor(mustHaveColor)\n    }\n    private fun startAlert(theQuestion:ArrayList<Result>, items:Int) {\n        MaterialAlertDialogBuilder(this)\n            .setTitle(\"Welcome to 10 Blitz Quiz\")\n            .setMessage(\"In this game , you will be granted with 10 questions.To answer them you\" +\n                    \"have 12 seconds each otherwise when timer finished it will move forward\" +\n                    \"and you will not earn points.\")\n            .setNeutralButton(\"Let's get started!\") { p0, p1 ->\n                firstStart(theQuestion,items)\n            }.setCancelable(false).show()\n    }\n\n    companion object {\n        const val QUIZ_DATA= \"quizData\"\n        const val SCORE=\"score\"\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt	(revision 06dca18a3d17f85a738a1b7816db16f6363ef870)
++++ app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt	(date 1632077306239)
+@@ -1,304 +1,161 @@
+ package se.linerotech.quizkampen
+ 
+-import android.content.Intent
+-import android.content.res.ColorStateList
+-import android.graphics.Color
+ import androidx.appcompat.app.AppCompatActivity
+ import android.os.Bundle
+ import android.os.CountDownTimer
+-import android.widget.Toast
++
++import android.widget.TextView
+ import androidx.core.view.isVisible
+ import com.example.myquizgame.models.Result
+-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+-import kotlinx.android.synthetic.main.activity_game_play.*
++import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
+ import se.linerotech.quizkampen.databinding.ActivityGamePlayBinding
+ 
+ class GamePlayActivity : AppCompatActivity() {
+ 
++
+     private lateinit var binding: ActivityGamePlayBinding
+-    private lateinit var allRandom:List<String>
+-    private var mySelectedItem:Pair<String,Int>?=null
+-    private lateinit var timer:CountDownTimer
+-    private var enableClick=false
+-    private var onClickedQuestion=0
+-    private var score=0
+-    val regexQuot = "&quot;"
+-    val regexUpper = "&#039;"
+-    val toChar = '"'
++    private var myTextViewRandomOne: TextView? = null
++    private var myTextViewRandomSecond: TextView? = null
++    private lateinit var listOfMyRepos: List<Result>
++    private var onclickedQuestion = 0
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+-        binding= ActivityGamePlayBinding.inflate(layoutInflater)
++        binding = ActivityGamePlayBinding.inflate(layoutInflater)
+         setContentView(binding.root)
+-        start()
+-        val listOfRepos = intent.getParcelableArrayListExtra<Result>(QUIZ_DATA)
++
++
++        //getMyToken()
++        Start()
++        val listOfRepos = intent?.getParcelableArrayListExtra<Result>(QUIZ_DATA)
+         listOfRepos?.let {
+-            startAlert(listOfRepos,listOfRepos.size)
+-
+-            showQuestionsOrNot(false)
+-
+-
+-            questionPreview(listOfRepos,listOfRepos.size)
++            questionPreview(listOfRepos, listOfRepos.size)
+         }
+-
+-
+     }
+-
+-    private fun selectItem():String {
+-        var selectedItem: String=""
+-        binding.gamePlayCardViewAnswerA.setOnClickListener {
+-            if (enableClick) {
+-                selectedItem = allRandom[0]
+-                mySelectedItem = Pair(selectedItem, 0)
+-                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.GRAY)
+-                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                enableClick=false
+-                timer.cancel()
+-                timer.onFinish()
+-            }
+-        }
+-        binding.gamePlayCardViewAnswerB.setOnClickListener {
+-            if (enableClick) {
+-                selectedItem = allRandom[1]
+-                mySelectedItem = Pair(selectedItem, 1)
+-                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.GRAY)
+-                enableClick=false
+-                timer.cancel()
+-                timer.onFinish()
+-            }
+-        }
+-        binding.gamePlayCardViewAnswerC.setOnClickListener {
+-            if (enableClick) {
+-                selectedItem = allRandom[2]
+-                mySelectedItem = Pair(selectedItem, 2)
+-                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.GRAY)
+-                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                enableClick=false
+-                timer.cancel()
+-                timer.onFinish()
+-            }
+-        }
+-        binding.gamePlayCardViewAnswerD.setOnClickListener {
+-            if (enableClick) {
+-                selectedItem = allRandom[3]
+-                mySelectedItem = Pair(selectedItem, 3)
+-                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.GRAY)
+-                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(getColor(R.color.quiz_orange))
+-                enableClick=false
+-                timer.cancel()
+-                timer.onFinish()
+-            }
+-        }
+ 
+-        return selectedItem
+-    }
+-    private fun firstStart(theQuestion:ArrayList<Result>, items:Int){
+-        showQuestionsOrNot(true)
+-        setBackgroundColorForQuestions(getColor(R.color.quiz_orange))
+-        enableClick=true
+-        binding.textViewTimer.isVisible=true
+-
+-        allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
+-            theQuestion[onClickedQuestion].incorrect_answers.size,
+-            theQuestion[onClickedQuestion].incorrect_answers)
+-
+-        binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
+-            .replace(regexQuot, toChar.toString())
+-            .replace(regexUpper, "'")
+-
+-        displayAnswers(allRandom,allRandom.size)
+-        binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
+-        binding.textViewTimer.max=12
+-        binding.textViewTimer.progress
+-        timer = object : CountDownTimer(12000, 1000) {
+-
+-            override fun onTick(millisUntilFinished: Long) {
+-
+-                binding.textViewTimer.progress =(millisUntilFinished / 1000).toInt()
+-                if (binding.textViewTimer.progress<(textViewTimer.max/3)){
+-                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
+-
+-                }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
+-                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
+-
+-                }
+-                binding.nextQuestionButton .isVisible = false
+-            }
+-
+-            override fun onFinish() {
+-                onClickedQuestion++
+-                binding.nextQuestionButton.text=getString(R.string.next)
+-                binding.nextQuestionButton.isVisible = true
+-                binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
+-                binding.textViewTimer.isVisible=false
+-
+-                checkItem(mySelectedItem?.second.toString(), Color.RED)
+-                checkItem(allRandom.last(), Color.GREEN)
+-
+-                if(mySelectedItem?.second.toString()==allRandom.last()){
+-                    Toast.makeText(this@GamePlayActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
+-                    score++
+-                }
+-
+-
+-
+-
+-
+-            }
+-        }
+-        timer.start()
+-        selectItem()
+-
+-
+-    }
+-    private fun questionPreview(theQuestion:ArrayList<Result>, items:Int){
++    private fun questionPreview(theQuestion: ArrayList<Result>, items: Int) {
+         binding.nextQuestionButton.setOnClickListener {
+-            if (onClickedQuestion == theQuestion.size) {
++            if (onclickedQuestion > theQuestion.size) {
+                 binding.nextQuestionButton.isVisible = false
+-                val intent= Intent(this,ResultActivity::class.java)
+-                intent.putExtra(SCORE,score)
+-                startActivity(intent)
+-                finish()
+-
+             } else {
+ 
+-                showQuestionsOrNot(true)
+-                setBackgroundColorForQuestions(getColor(R.color.quiz_orange))
+-                enableClick=true
+-                binding.textViewTimer.isVisible=true
++
++                binding.textViewAnswerA.isVisible = true
++                binding.textViewAnswerB.isVisible = true
++                binding.textViewAnswerC.isVisible = true
++                binding.textViewAnswerD.isVisible = true
++               
++                binding.textViewTimer.isVisible = true
+ 
+-                allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
+-                    theQuestion[onClickedQuestion].incorrect_answers.size,
+-                    theQuestion[onClickedQuestion].incorrect_answers)
+-
+-                binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
+-                    .replace(regexQuot, toChar.toString())
+-                    .replace(regexUpper, "'")
+-
+-                displayAnswers(allRandom,allRandom.size)
+-                binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
+-                binding.textViewTimer.max=12
+-                binding.textViewTimer.progress
+-
+-                timer = object : CountDownTimer(12000, 1000) {
++                myTextViewRandomOne?.text =
++                    "Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}"
++                val allRandom = randomAnswer(
++                    theQuestion[onclickedQuestion].correct_answer,
++                    theQuestion[onclickedQuestion].incorrect_answers.size,
++                    theQuestion[onclickedQuestion].incorrect_answers
++                )
++                myTextViewRandomSecond?.text = "Incorrect after:$allRandom"
++                val myRegex = "&quot;"
++                val myRegex39 = "&#039;"
++                val toChar = '"'
++                val timer = object : CountDownTimer(12000, 1000) {
+                     override fun onTick(millisUntilFinished: Long) {
+ 
+-                        binding.textViewTimer.progress=(millisUntilFinished / 1000).toInt()
+-                        if (binding.textViewTimer.progress<(textViewTimer.max/3)){
+-                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
+-
+-                        }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
+-                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
+-
+-                        }
+-                        binding.nextQuestionButton .isVisible = false
+-                    }
+-
+-                    override fun onFinish() {
+-                        onClickedQuestion++
+-                        binding.nextQuestionButton.text=getString(R.string.next)
+-                        binding.nextQuestionButton.isVisible = true
+-                        binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
+-                        binding.textViewTimer.isVisible=false
++                        binding.textViewQuestion.text = theQuestion[onclickedQuestion].question
++                            .replace(myRegex, toChar.toString())
++                            .replace(myRegex39, "'")
+ 
+-                        checkItem(mySelectedItem?.second.toString(), Color.RED)
+-                        checkItem(allRandom.last(), Color.GREEN)
+-
+-                        if(mySelectedItem?.second.toString()==allRandom.last()){
+-                            Toast.makeText(this@GamePlayActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
+-                            score++
+-                        }
+-
+-
+-
+-
+-                    }
+-                }
+-                timer.start()
+-                selectItem()
+-
+-
+-
+-            }
+-        }
+-    }
+-    private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {
+-
+-        if (numberAnswers == 5) {
+-
+-            binding.textViewAnswerA.text =
+-                allRandom[0]
+-                    .replace(regexQuot, toChar.toString())
+-                    .replace(regexUpper, "'")
+-            binding.textViewAnswerB.text =
+-                allRandom[1]
+-                    .replace(regexQuot, toChar.toString())
+-                    .replace(regexUpper, "'")
+-            binding.textViewAnswerC.text =
+-                allRandom[2]
+-                    .replace(regexQuot, toChar.toString())
+-                    .replace(regexUpper, "'")
+-            binding.textViewAnswerD.text =
+-                allRandom[3]
+-                    .replace(regexQuot, toChar.toString())
+-                    .replace(regexUpper, "'")
++                        if (theQuestion[onclickedQuestion].incorrect_answers.size > 2) {
++                            binding.textViewAnswerA.text =
++                                allRandom[0]
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
++                            binding.textViewAnswerB.text =
++                                allRandom[1]
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
++                            binding.textViewAnswerC.text =
++                                allRandom[2]
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
++                            binding.textViewAnswerD.text =
++                                allRandom[3]
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
+ 
+-        }
+-        if (numberAnswers == 3) {
+-            val randomField=(0..1).random()
+-            if (randomField==0){
+-                binding.textViewAnswerA.text =
+-                    allRandom[0]
+-                        .replace(regexQuot, toChar.toString())
+-                        .replace(regexUpper, "'")
+-                binding.textViewAnswerB.text =
+-                    allRandom[1]
+-                        .replace(regexQuot, toChar.toString())
+-                        .replace(regexUpper, "'")
+-            } else {
+-                binding.textViewAnswerA.text =
+-                    allRandom[0]
+-                        .replace(regexQuot, toChar.toString())
+-                        .replace(regexUpper, "'")
+-                binding.textViewAnswerB.text =
+-                    allRandom[1]
+-                        .replace(regexQuot, toChar.toString())
+-            }
+-
+-            binding.textViewAnswerC.isVisible = false
+-            binding.gamePlayCardViewAnswerC.isVisible = false
+-            binding.textViewAnswerD.isVisible = false
+-            binding.gamePlayCardViewAnswerD.isVisible = false
++                        } else {
++                            binding.textViewAnswerA.text =
++                                theQuestion[onclickedQuestion].incorrect_answers[0]
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
++                            binding.textViewAnswerB.text =
++                                theQuestion[onclickedQuestion].correct_answer
++                                    .replace(myRegex, toChar.toString())
++                                    .replace(myRegex39, "'")
++                            binding.textViewAnswerC.isVisible = false
++                            binding.textViewAnswerD.isVisible = false
++
+ 
+-        }
++                        }
+ 
++
++                        binding.textViewTimer.text =
++                            "Time left to answer: " + (millisUntilFinished / 1000).toString()
++                        binding.nextQuestionButton.isVisible = false
++
++                    }
++
++                    override fun onFinish() {
++                        onclickedQuestion++
++                        binding.nextQuestionButton.text = "Next Question"
++                        binding.nextQuestionButton.isVisible = true
++                        binding.questionNumber.text =
++                            "Finished Questions:$items / $onclickedQuestion"
++                        binding.textViewAnswerA.isVisible = false
++                        binding.textViewAnswerB.isVisible = false
++                        binding.textViewAnswerC.isVisible = false
++                        binding.textViewAnswerD.isVisible = false
++                        binding.textViewTimer.isVisible = false
++
++                        when (allRandom.last()) {
++                            "0" -> binding.textViewAnswerA.isVisible = true
++                            "1" -> binding.textViewAnswerB.isVisible = true
++                            "2" -> binding.textViewAnswerC.isVisible = true
++                            "3" -> binding.textViewAnswerD.isVisible = true
++                        }
++
++
++                    }
++                }
++                timer.start()
++
++
++            }
++        }
+     }
+-    private fun randomAnswer(correctAnswer:String,amountOfQuestions:Int,questionsToGenerate:List<String>):List<String>{
+-        val listOfItems= mutableListOf<String>()
+-        var numberOfCorrectAnswer=0
++
++
++    private fun randomAnswer(
++        correctAnswer: String,
++        amountOfQuestions: Int,
++        questionsToGenerate: List<String>
++    ): List<String> {
++        val listOfItems = mutableListOf<String>()
++        var numberOfCorrectAnswer = 0
+ 
+-        for(i in 0..amountOfQuestions){
++        for (i in 0..amountOfQuestions) {
+             listOfItems.add("")
+         }
+-        numberOfCorrectAnswer=(0..amountOfQuestions).random()
++        numberOfCorrectAnswer = (0..amountOfQuestions).random()
+         listOfItems[numberOfCorrectAnswer] = correctAnswer
+-        for (i in 0..amountOfQuestions-1) {
++        for (i in 0..amountOfQuestions - 1) {
+ 
+             if (!listOfItems.contains(questionsToGenerate[i])) {
+ 
+-                for ((index,a) in listOfItems.withIndex()){
++                for ((index, a) in listOfItems.withIndex()) {
+ 
+-                    if (listOfItems[index].isNullOrEmpty()){
+-                        listOfItems[index]=questionsToGenerate[i]
++                    if (listOfItems[index].isNullOrEmpty()) {
++                        listOfItems[index] = questionsToGenerate[i]
+                         break
+                     }
+                 }
+@@ -311,68 +168,21 @@
+ 
+         return listOfItems
+     }
+-    private fun showQuestionsOrNot(choice:Boolean){
+-        binding.cardView.isVisible=choice
+-        binding.textViewAnswerA.isVisible=choice
+-        binding.textViewAnswerB.isVisible=choice
+-        binding.textViewAnswerC.isVisible=choice
+-        binding.textViewAnswerD.isVisible=choice
+-        binding.gamePlayCardViewAnswerA.isVisible=choice
+-        binding.gamePlayCardViewAnswerB.isVisible=choice
+-        binding.gamePlayCardViewAnswerC.isVisible=choice
+-        binding.gamePlayCardViewAnswerD.isVisible=choice
+-    }
+-    private fun start(){
+-        binding.cardView.isVisible=false
+-        binding.questionNumber.text=getString(R.string.quest)
+-        binding.textViewTimer.isVisible=false
+-        binding.nextQuestionButton.isVisible=false
+-        binding.nextQuestionButton.text=getString(R.string.next)
+-    }
+-    private fun checkItem(option:String,color:Int){
+-        when (option) {
+-            "0" -> {
+-                binding.textViewAnswerA.isVisible=true
+-                binding.gamePlayCardViewAnswerA.setCardBackgroundColor(color)
+-                binding.gamePlayCardViewAnswerA.isVisible=true
+-            }
+-            "1" ->{
+-                binding.textViewAnswerB.isVisible=true
+-                binding.gamePlayCardViewAnswerB.setCardBackgroundColor(color)
+-                binding.gamePlayCardViewAnswerB.isVisible=true
+-            }
+-            "2" -> {
+-                binding.textViewAnswerC.isVisible=true
+-                binding.gamePlayCardViewAnswerC.setCardBackgroundColor(color)
+-                binding.gamePlayCardViewAnswerC.isVisible=true
+-            }
+-            "3" ->{
+-                binding.textViewAnswerD.isVisible=true
+-                binding.gamePlayCardViewAnswerD.setCardBackgroundColor(color)
+-                binding.gamePlayCardViewAnswerD.isVisible=true
+-            }
+-        }
++
++    private fun Start() {
++
++        binding.questionNumber.text = "Finished Questions:0"
++        binding.textViewTimer.isVisible = false
++        binding.gamePlayCardViewAnswerA.isVisible = false
++        binding.gamePlayCardViewAnswerB.isVisible = false
++        binding.gamePlayCardViewAnswerC.isVisible = false
++        binding.gamePlayCardViewAnswerD.isVisible = false
++        binding.nextQuestionButton.isVisible = true
++        binding.nextQuestionButton.text = "Start Quiz"
+ 
+-    }
+-    private fun setBackgroundColorForQuestions(mustHaveColor:Int){
+-        binding.gamePlayCardViewAnswerA.setCardBackgroundColor(mustHaveColor)
+-        binding.gamePlayCardViewAnswerB.setCardBackgroundColor(mustHaveColor)
+-        binding.gamePlayCardViewAnswerC.setCardBackgroundColor(mustHaveColor)
+-        binding.gamePlayCardViewAnswerD.setCardBackgroundColor(mustHaveColor)
+-    }
+-    private fun startAlert(theQuestion:ArrayList<Result>, items:Int) {
+-        MaterialAlertDialogBuilder(this)
+-            .setTitle("Welcome to 10 Blitz Quiz")
+-            .setMessage("In this game , you will be granted with 10 questions.To answer them you" +
+-                    "have 12 seconds each otherwise when timer finished it will move forward" +
+-                    "and you will not earn points.")
+-            .setNeutralButton("Let's get started!") { p0, p1 ->
+-                firstStart(theQuestion,items)
+-            }.setCancelable(false).show()
+     }
+ 
+     companion object {
+-        const val QUIZ_DATA= "quizData"
+-        const val SCORE="score"
++        const val QUIZ_DATA = "quizData"
+     }
+ }
+\ No newline at end of file
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/runConfigurations.xml	(date 1632076594724)
++++ .idea/runConfigurations.xml	(date 1632076594724)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"GRADLE\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"Embedded JDK\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 06dca18a3d17f85a738a1b7816db16f6363ef870)
++++ .idea/gradle.xml	(date 1632076594692)
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="GRADLE" />
++        <option name="testRunner" value="PLATFORM" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="Embedded JDK" />
