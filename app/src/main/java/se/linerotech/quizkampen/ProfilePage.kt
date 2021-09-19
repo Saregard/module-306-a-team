@@ -58,7 +58,7 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun getQuestions(myToken: String) {
-        //"79a71d870561286a2aeb29eb11d443676bbf7784fbf158c8d8ff7d9a07eb4e4f"
+
         GetQuestions
             .instance
             .getQuestions("10", myToken)
@@ -72,10 +72,7 @@ class ProfilePage : AppCompatActivity() {
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
                             val intent = Intent(this@ProfilePage, GamePlayActivity::class.java)
-                            intent.putParcelableArrayListExtra(
-                                QUIZ_DATA,
-                                it
-                            )
+                            intent.putParcelableArrayListExtra(QUIZ_DATA,it)
                             startActivity(intent)
                         }
 

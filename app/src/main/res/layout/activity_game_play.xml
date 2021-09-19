@@ -1,172 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#272343"
+    android:background="@color/quiz_blue"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="293dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/QuestionNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="1/10 Questions"
-            android:textAlignment="center"
-            android:textColor="#ffa384"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/quiz_orange"
+        android:layout_margin="8dp"
+        android:outlineAmbientShadowColor="@color/black"
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-
-        <TextView
-            android:id="@+id/selectoption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SelectedOption"
-            android:textAlignment="center"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:id="@+id/CorrectAnswer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CorrectAnswer"
-            android:textAlignment="center"
-            android:textColor="#ffffff" />
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="70dp"
-            android:layout_marginBottom="50dp"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewQuestion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="What is the question?"
-                android:textColor="#ffffff"
-                android:textSize="25sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                tools:text="How much is 1+1?" />
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rank : 1500 | " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level: Hard |" />
+
+                <TextView
+                    android:id="@+id/questionNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Finished Questions: 10/ 10"/>
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
+    </com.google.android.material.card.MaterialCardView>
+     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/FirstTwoOptions"
-        android:layout_gravity="center"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:orientation="vertical"/>
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/textViewAnswerA"
-        android:text="optionA"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/optiondesign"
-        android:textColor="#272343"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:paddingTop="14dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/textViewAnswerB"
-        android:text="optionB"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/optiondesign"
-        android:textColor="#272343"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:paddingTop="14dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/textViewAnswerC"
-        android:text="optionC"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/optiondesign"
-        android:textColor="#272343"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:paddingTop="14dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/textViewAnswerD"
-        android:text="optionD"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/optiondesign"
-        android:textColor="#272343"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:paddingTop="14dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/nextQuestionButton"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/gamePlayCardViewAnswerA"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/optiondesign"
-            android:paddingTop="14dp"
-            android:text="Skip Question"
-            android:textAlignment="center"
-            android:clickable="true"
-            android:textColor="#272343" />
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:outlineAmbientShadowColor="@color/black"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:id="@+id/textViewAnswerA"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Answer A"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/gamePlayCardViewAnswerB"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:outlineAmbientShadowColor="@color/black"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:id="@+id/textViewAnswerB"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Answer B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/gamePlayCardViewAnswerC"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:outlineAmbientShadowColor="@color/black"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:id="@+id/textViewAnswerC"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Answer C"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/gamePlayCardViewAnswerD"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:outlineAmbientShadowColor="@color/black"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:id="@+id/textViewAnswerD"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Answer D"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/questionNumber"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:padding="10dp"
-        android:text="Score 0/10"
-        android:layout_marginTop="10dp"
-        android:textColor="#ffffff"
-        android:textStyle="bold" />
+        android:layout_gravity="center">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#ffa384"
-        android:visibility="visible"
-        android:indeterminate="false" />
+        <TextView
+            android:id="@+id/correctAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="Timer"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/textViewTimer"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"/>
+        <Button
+            android:id="@+id/nextQuestionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:text="Next Question"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </LinearLayout>
-
 
 
 
