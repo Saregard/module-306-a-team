@@ -1,6 +1,7 @@
 package se.linerotech.quizkampen
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,13 +10,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.myquizgame.models.Result
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_game_play.*
 import se.linerotech.quizkampen.databinding.ActivityGamePlayBinding
 
 class GamePlayActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGamePlayBinding
     private lateinit var allRandom:List<String>
-    private lateinit var mySelectedItem:Pair<String,Int>
+    private var mySelectedItem:Pair<String,Int>?=null
     private lateinit var timer:CountDownTimer
     private var enableClick=false
     private var onClickedQuestion=0
@@ -26,9 +28,8 @@ class GamePlayActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGamePlayBinding.inflate(layoutInflater)
+        binding= ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         start()
         val listOfRepos = intent.getParcelableArrayListExtra<Result>(QUIZ_DATA)
         listOfRepos?.let {
@@ -115,16 +116,21 @@ class GamePlayActivity : AppCompatActivity() {
             .replace(regexUpper, "'")
 
         displayAnswers(allRandom,allRandom.size)
-
+        binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
+        binding.textViewTimer.max=12
+        binding.textViewTimer.progress
         timer = object : CountDownTimer(12000, 1000) {
+
             override fun onTick(millisUntilFinished: Long) {
 
+                binding.textViewTimer.progress =(millisUntilFinished / 1000).toInt()
+                if (binding.textViewTimer.progress<(textViewTimer.max/3)){
+                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
 
+                }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
+                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
 
-
-
-                binding.textViewTimer.text =
-                    "Time left to answer: " + (millisUntilFinished / 1000).toString()
+                }
                 binding.nextQuestionButton .isVisible = false
             }
 
@@ -135,13 +141,14 @@ class GamePlayActivity : AppCompatActivity() {
                 binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
                 binding.textViewTimer.isVisible=false
 
-                checkItem(mySelectedItem.second.toString(), Color.RED)
+                checkItem(mySelectedItem?.second.toString(), Color.RED)
                 checkItem(allRandom.last(), Color.GREEN)
 
-                if(mySelectedItem.second.toString()==allRandom.last()){
+                if(mySelectedItem?.second.toString()==allRandom.last()){
                     Toast.makeText(this@GamePlayActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
                     score++
                 }
+
 
 
 
@@ -178,16 +185,21 @@ class GamePlayActivity : AppCompatActivity() {
                     .replace(regexUpper, "'")
 
                 displayAnswers(allRandom,allRandom.size)
+                binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
+                binding.textViewTimer.max=12
+                binding.textViewTimer.progress
 
                 timer = object : CountDownTimer(12000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
 
+                        binding.textViewTimer.progress=(millisUntilFinished / 1000).toInt()
+                        if (binding.textViewTimer.progress<(textViewTimer.max/3)){
+                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
 
+                        }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
+                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
 
-
-
-                        binding.textViewTimer.text =
-                            "Time left to answer: " + (millisUntilFinished / 1000).toString()
+                        }
                         binding.nextQuestionButton .isVisible = false
                     }
 
@@ -198,10 +210,10 @@ class GamePlayActivity : AppCompatActivity() {
                         binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
                         binding.textViewTimer.isVisible=false
 
-                        checkItem(mySelectedItem.second.toString(), Color.RED)
+                        checkItem(mySelectedItem?.second.toString(), Color.RED)
                         checkItem(allRandom.last(), Color.GREEN)
 
-                        if(mySelectedItem.second.toString()==allRandom.last()){
+                        if(mySelectedItem?.second.toString()==allRandom.last()){
                             Toast.makeText(this@GamePlayActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
                             score++
                         }
@@ -360,7 +372,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val QUIZ_DATA = "quizData"
+        const val QUIZ_DATA= "quizData"
         const val SCORE="score"
     }
 }
