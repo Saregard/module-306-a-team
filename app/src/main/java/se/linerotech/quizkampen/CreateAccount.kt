@@ -7,6 +7,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
