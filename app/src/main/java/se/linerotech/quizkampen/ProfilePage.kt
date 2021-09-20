@@ -1,5 +1,6 @@
 package se.linerotech.quizkampen
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,13 +9,12 @@ import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
-import com.google.android.gms.common.api.Response
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
-import se.linerotech.quizkampen.GamePlayActivity.Companion.QUIZ_DATA
+import se.linerotech.quizkampen.GameActivity.Companion.QUIZ_DATA
 import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
 
 class ProfilePage : AppCompatActivity() {
@@ -71,7 +71,7 @@ class ProfilePage : AppCompatActivity() {
 
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
-                            val intent = Intent(this@ProfilePage, GamePlayActivity::class.java)
+                            val intent = Intent(this@ProfilePage, GameActivity::class.java)
                             intent.putParcelableArrayListExtra(QUIZ_DATA,it)
                             startActivity(intent)
                         }

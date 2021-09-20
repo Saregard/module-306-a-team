@@ -1,9 +1,11 @@
 package se.linerotech.quizkampen
 
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import se.linerotech.quizkampen.GameActivity.Companion.SCORE
 
-import se.linerotech.quizkampen.GamePlayActivity.Companion.SCORE
+
 import se.linerotech.quizkampen.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
