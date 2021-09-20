@@ -30,8 +30,8 @@ class CreateAccount : AppCompatActivity() {
         val auth = Firebase.auth
 
         binding.buttonSignUp.setOnClickListener {
-            val email = binding.editTextSignUpEmail.text.toString().trim()
-            val password = binding.editTextSignUpPassword.text.toString().trim()
+            val email = binding.editTextSignUpEmail.text.toString().trim(){ it <= ' ' }
+            val password = binding.editTextSignUpPassword.text.toString().trim(){ it <= ' ' }
 
             if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.editTextSignUpEmail.error = "Needs to be and email"

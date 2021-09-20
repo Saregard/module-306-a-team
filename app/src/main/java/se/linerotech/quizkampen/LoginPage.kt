@@ -34,11 +34,14 @@ class LoginPage : AppCompatActivity() {
             if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.editTextEmail.error = "Needs to be and email"
             }
-            if (TextUtils.isEmpty(email) ) {
+            if (TextUtils.isEmpty(email)) {
                 binding.editTextEmail.error = "Email can not be empty"
             }
             if (TextUtils.isEmpty(password)) {
                 binding.editTextPassword.error = "Password can not be empty"
+            }
+            if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(email)) {
+                binding.editTextEmail.error = "Email can not be empty"
             }
             else {
                 auth.signInWithEmailAndPassword(email, password)
