@@ -16,4 +16,9 @@
     <string name="sign_up">sign up</string>
     <string name="go_back">Go Back</string>
     <string name="play">Play</string>
+    <string name="profile">Profile</string>
+    <string name="username">Username:</string>
+    <string name="log_out">Log Out</string>
+    <string name="change_username">Change Username</string>
+    <string name="change_password">Change Password</string>
 </resources>
