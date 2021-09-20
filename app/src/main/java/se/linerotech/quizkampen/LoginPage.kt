@@ -3,11 +3,15 @@ package se.linerotech.quizkampen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
-import android.widget.Toast
+import android.util.Patterns
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import se.linerotech.quizkampen.databinding.ActivityLoginPageBinding
+import java.lang.Exception
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class LoginPage : AppCompatActivity() {
 
@@ -24,30 +28,42 @@ class LoginPage : AppCompatActivity() {
     private fun authentication(){
         val auth = Firebase.auth
         binding.buttonLogin.setOnClickListener{
-            auth.signInWithEmailAndPassword(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
+            val email = binding.editTextEmail.text.toString().trim{ it <= ' ' }
+            val password = binding.editTextPassword.text.toString().trim{ it <= ' ' }
 
-                        if ( auth.currentUser!!.isEmailVerified) {
-                            val intent = Intent(this, ProfilePage::class.java)
-                            startActivity(intent)
+            if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.editTextEmail.error = "Needs to be and email"
+            }
+            if (TextUtils.isEmpty(email) ) {
+                binding.editTextEmail.error = "Email can not be empty"
+            }
+            if (TextUtils.isEmpty(password)) {
+                binding.editTextPassword.error = "Password can not be empty"
+            }
+            else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
 
-
-                        } else {
-
+                            if (auth.currentUser!!.isEmailVerified) {
+                                val intent = Intent(this, ProfilePage::class.java)
+                                startActivity(intent)
+                            }
                         }
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show()
-                        val user = auth.currentUser
-
-
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("Fail", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        if (!task.isSuccessful) {
+                            try {
+                                throw task.exception!!
+                            } catch (e: FirebaseAuthInvalidCredentialsException) {
+                                binding.editTextPassword.error = "Invalid Password"
+                            } catch (e: FirebaseAuthInvalidUserException) {
+                                binding.editTextEmail.error = "Invalid email"
+                            } catch (e: Exception) {
+                                Log.w("Fail", "signInWithEmail:failure", task.exception)
+                            }
+                        }
                     }
-                }
+            }
+
         }
     }
 
@@ -58,5 +74,4 @@ class LoginPage : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
 }
