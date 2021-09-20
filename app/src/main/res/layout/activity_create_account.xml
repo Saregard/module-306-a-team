@@ -51,7 +51,7 @@
         android:paddingTop="14dp"/>
 
     <Button
-        android:id="@+id/goBack"
+        android:id="@+id/goBackToLoginScreen"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:backgroundTint="#ffa384"

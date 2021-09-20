@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.FragmentContainerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding

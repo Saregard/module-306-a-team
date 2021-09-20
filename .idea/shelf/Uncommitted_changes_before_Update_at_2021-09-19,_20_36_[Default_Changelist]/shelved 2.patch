@@ -1,0 +1,229 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
+@@ -1,38 +0,0 @@
+-Index: app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package se.linerotech.quizkampen\n\nimport android.content.Intent\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.util.Log\nimport android.widget.Button\nimport android.widget.EditText\nimport android.widget.Toast\nimport com.google.firebase.auth.FirebaseAuth\nimport com.google.firebase.auth.ktx.auth\nimport com.google.firebase.ktx.Firebase\n\nclass CreateAccount : AppCompatActivity() {\n    private var mySignUpButton: Button? = null\n    private var myPassword: EditText? = null\n    private var myEmail: EditText? = null\n\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_create_account)\n        mySignUpButton = findViewById(R.id.buttonSignUp)\n        myPassword = findViewById(R.id.editTextSignUpPassword)\n        myEmail = findViewById(R.id.editTextSignUpEmail)\n        val auth = Firebase.auth\n\n        mySignUpButton?.setOnClickListener{\n            Toast.makeText(this, myEmail?.text.toString(), Toast.LENGTH_SHORT).show()\n\n            auth.createUserWithEmailAndPassword(myEmail?.text.toString(), myPassword?.text.toString())\n                .addOnCompleteListener(this) { task ->\n                    Toast.makeText(this, \"Success create\", Toast.LENGTH_SHORT).show()\n                    if (task.isSuccessful) {\n                        // Sign in success, update UI with the signed-in user's information\n                        auth.currentUser!!.sendEmailVerification()\n\n                        val intent = Intent(this, LoginPage::class.java)\n                        Log.d(\"Sign in\", \"createUserWithEmail:success\")\n                        startActivity(intent)\n                        finish()\n\n\n                    } else {\n                        // If sign in fails, display a message to the user.\n                        Log.w(\"Failed\", \"createUserWithEmail:failure\", task.exception)\n                        Toast.makeText(baseContext, \"Authentication failed.\",\n                            Toast.LENGTH_SHORT).show()\n\n                    }\n                }\n\n        }\n\n\n    }\n\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt	(revision ef2a86d1f11cbe262a9af31c989a986d86aeeb9e)
+-+++ app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt	(date 1631199685825)
+-@@ -33,8 +33,9 @@
+-                     Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
+-                     if (task.isSuccessful) {
+-                         // Sign in success, update UI with the signed-in user's information
+--                        auth.currentUser!!.sendEmailVerification()
+--
+-+                        if (!auth.currentUser!!.isEmailVerified) {
+-+                            auth.currentUser!!.sendEmailVerification()
+-+                        }
+-                         val intent = Intent(this, LoginPage::class.java)
+-                         Log.d("Sign in", "createUserWithEmail:success")
+-                         startActivity(intent)
+-Index: app/build.gradle
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>plugins {\n    id 'com.android.application'\n    id 'kotlin-android'\n    id 'com.google.gms.google-services'\n}\n\nandroid {\n    compileSdkVersion 30\n    buildToolsVersion \"30.0.3\"\n\n    defaultConfig {\n        applicationId \"com.example.quizkampen\"\n        minSdkVersion 28\n        targetSdkVersion 30\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n}\n\ndependencies {\n\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n    implementation 'androidx.core:core-ktx:1.6.0'\n    implementation 'androidx.appcompat:appcompat:1.3.1'\n    implementation 'com.google.android.material:material:1.4.0'\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'\n    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'\n    testImplementation 'junit:junit:4.13.2'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/build.gradle	(revision ef2a86d1f11cbe262a9af31c989a986d86aeeb9e)
+-+++ app/build.gradle	(date 1631199700558)
+-@@ -41,6 +41,7 @@
+-     implementation 'com.google.android.material:material:1.4.0'
+-     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+-     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+-+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.3'
+-     testImplementation 'junit:junit:4.13.2'
+-     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+-     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09__17_01__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09__17_01__Default_Changelist_.xml	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09__17_01__Default_Changelist_.xml	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_2021-09-09,_17_01_[Default_Changelist]" date="1631199700588" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2021-09-09, 17:01 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
+@@ -1,77 +0,0 @@
+-Index: app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package se.linerotech.quizkampen\n\nimport android.content.Intent\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.util.Log\nimport android.widget.Button\nimport android.widget.EditText\nimport android.widget.Toast\nimport com.google.firebase.auth.FirebaseAuth\nimport com.google.firebase.auth.ktx.auth\nimport com.google.firebase.ktx.Firebase\n\nclass CreateAccount : AppCompatActivity() {\n    private var mySignUpButton: Button? = null\n    private var myPassword: EditText? = null\n    private var myEmail: EditText? = null\n\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_create_account)\n        mySignUpButton = findViewById(R.id.buttonSignUp)\n        myPassword = findViewById(R.id.editTextSignUpPassword)\n        myEmail = findViewById(R.id.editTextSignUpEmail)\n        val auth = Firebase.auth\n\n        mySignUpButton?.setOnClickListener{\n            Toast.makeText(this, myEmail?.text.toString(), Toast.LENGTH_SHORT).show()\n\n            auth.createUserWithEmailAndPassword(myEmail?.text.toString(), myPassword?.text.toString())\n                .addOnCompleteListener(this) { task ->\n                    Toast.makeText(this, \"Success create\", Toast.LENGTH_SHORT).show()\n                    if (task.isSuccessful) {\n                        // Sign in success, update UI with the signed-in user's information\n                        if (!auth.currentUser!!.isEmailVerified) {\n                            auth.currentUser!!.sendEmailVerification()\n                        }\n                        val intent = Intent(this, LoginPage::class.java)\n                        Log.d(\"Sign in\", \"createUserWithEmail:success\")\n                        startActivity(intent)\n                        finish()\n\n\n                    } else {\n                        // If sign in fails, display a message to the user.\n                        Log.w(\"Failed\", \"createUserWithEmail:failure\", task.exception)\n                        Toast.makeText(baseContext, \"Authentication failed.\",\n                            Toast.LENGTH_SHORT).show()\n\n                    }\n                }\n\n        }\n\n\n    }\n\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt	(revision ff7b5250323eb80dea7a6c9eb8d3f388b280b810)
+-+++ app/src/main/java/se/linerotech/quizkampen/CreateAccount.kt	(date 1631198680339)
+-@@ -9,14 +9,19 @@
+- import android.widget.Toast
+- import com.google.firebase.auth.FirebaseAuth
+- import com.google.firebase.auth.ktx.auth
+-+import com.google.firebase.firestore.DocumentReference
+-+import com.google.firebase.firestore.ktx.firestore
+- import com.google.firebase.ktx.Firebase
+- 
+-+
+-+
+- class CreateAccount : AppCompatActivity() {
+-     private var mySignUpButton: Button? = null
+-     private var myPassword: EditText? = null
+-     private var myEmail: EditText? = null
+- 
+- 
+-+
+-     override fun onCreate(savedInstanceState: Bundle?) {
+-         super.onCreate(savedInstanceState)
+-         setContentView(R.layout.activity_create_account)
+-@@ -24,6 +29,9 @@
+-         myPassword = findViewById(R.id.editTextSignUpPassword)
+-         myEmail = findViewById(R.id.editTextSignUpEmail)
+-         val auth = Firebase.auth
+-+        val fstore = Firebase.firestore
+-+        val userID = Firebase.firestore
+-+
+- 
+-         mySignUpButton?.setOnClickListener{
+-             Toast.makeText(this, myEmail?.text.toString(), Toast.LENGTH_SHORT).show()
+-@@ -35,13 +43,19 @@
+-                         // Sign in success, update UI with the signed-in user's information
+-                         if (!auth.currentUser!!.isEmailVerified) {
+-                             auth.currentUser!!.sendEmailVerification()
+-+                            fstore.collection("users").document("1")
+-+                                .set(auth.currentUser!!.uid)
+-+                                .addOnSuccessListener { documentReference ->
+-+                                }
+-+                                .addOnFailureListener { e ->
+-+                                    Log.w("Error", "Error adding document", e)
+-+                                }
+-                         }
+-                         val intent = Intent(this, LoginPage::class.java)
+-                         Log.d("Sign in", "createUserWithEmail:success")
+-                         startActivity(intent)
+-                         finish()
+- 
+--
+-                     } else {
+-                         // If sign in fails, display a message to the user.
+-                         Log.w("Failed", "createUserWithEmail:failure", task.exception)
+-Index: app/build.gradle
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>plugins {\n    id 'com.android.application'\n    id 'kotlin-android'\n    id 'com.google.gms.google-services'\n}\n\nandroid {\n    compileSdkVersion 30\n    buildToolsVersion \"30.0.3\"\n\n    defaultConfig {\n        applicationId \"com.example.quizkampen\"\n        minSdkVersion 28\n        targetSdkVersion 30\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n}\n\ndependencies {\n\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n    implementation 'androidx.core:core-ktx:1.6.0'\n    implementation 'androidx.appcompat:appcompat:1.3.1'\n    implementation 'com.google.android.material:material:1.4.0'\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'\n    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'\n    testImplementation 'junit:junit:4.13.2'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/build.gradle	(revision ff7b5250323eb80dea7a6c9eb8d3f388b280b810)
+-+++ app/build.gradle	(date 1631176085693)
+-@@ -41,6 +41,7 @@
+-     implementation 'com.google.android.material:material:1.4.0'
+-     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+-     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+-+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.3'
+-     testImplementation 'junit:junit:4.13.2'
+-     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+-     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09__17_01__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09__17_01__Default_Changelist_.xml	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09__17_01__Default_Changelist_.xml	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_2021-09-09,_17_01_[Default_Changelist]" date="1631199716201" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-09-09,_17_01_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 2021-09-09, 17:01 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package se.linerotech.quizkampen\n\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.os.CountDownTimer\n\nimport android.widget.TextView\nimport androidx.core.view.isVisible\nimport com.example.myquizgame.models.Result\nimport se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding\nimport se.linerotech.quizkampen.databinding.ActivityGamePlayBinding\n\nclass GamePlayActivity : AppCompatActivity() {\n\n\n    private lateinit var binding: ActivityGamePlayBinding\n    private var myTextViewRandomOne: TextView? = null\n    private var myTextViewRandomSecond: TextView? = null\n    private lateinit var listOfMyRepos: List<Result>\n    private var onclickedQuestion = 0\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        binding = ActivityGamePlayBinding.inflate(layoutInflater)\n        setContentView(binding.root)\n\n\n        //getMyToken()\n        Start()\n        val listOfRepos = intent?.getParcelableArrayListExtra<Result>(QUIZ_DATA)\n        listOfRepos?.let {\n            questionPreview(listOfRepos, listOfRepos.size)\n        }\n    }\n\n    private fun questionPreview(theQuestion: ArrayList<Result>, items: Int) {\n        binding.nextQuestionButton.setOnClickListener {\n            if (onclickedQuestion > theQuestion.size) {\n                binding.nextQuestionButton.isVisible = false\n            } else {\n\n\n                binding.textViewAnswerA.isVisible = true\n                binding.textViewAnswerB.isVisible = true\n                binding.textViewAnswerC.isVisible = true\n                binding.textViewAnswerD.isVisible = true\n               \n                binding.textViewTimer.isVisible = true\n\n                myTextViewRandomOne?.text =\n                    \"Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}\"\n                val allRandom = randomAnswer(\n                    theQuestion[onclickedQuestion].correct_answer,\n                    theQuestion[onclickedQuestion].incorrect_answers.size,\n                    theQuestion[onclickedQuestion].incorrect_answers\n                )\n                myTextViewRandomSecond?.text = \"Incorrect after:$allRandom\"\n                val myRegex = \"&quot;\"\n                val myRegex39 = \"&#039;\"\n                val toChar = '\"'\n                val timer = object : CountDownTimer(12000, 1000) {\n                    override fun onTick(millisUntilFinished: Long) {\n\n                        binding.textViewQuestion.text = theQuestion[onclickedQuestion].question\n                            .replace(myRegex, toChar.toString())\n                            .replace(myRegex39, \"'\")\n\n                        if (theQuestion[onclickedQuestion].incorrect_answers.size > 2) {\n                            binding.textViewAnswerA.text =\n                                allRandom[0]\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n                            binding.textViewAnswerB.text =\n                                allRandom[1]\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n                            binding.textViewAnswerC.text =\n                                allRandom[2]\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n                            binding.textViewAnswerD.text =\n                                allRandom[3]\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n\n                        } else {\n                            binding.textViewAnswerA.text =\n                                theQuestion[onclickedQuestion].incorrect_answers[0]\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n                            binding.textViewAnswerB.text =\n                                theQuestion[onclickedQuestion].correct_answer\n                                    .replace(myRegex, toChar.toString())\n                                    .replace(myRegex39, \"'\")\n                            binding.textViewAnswerC.isVisible = false\n                            binding.textViewAnswerD.isVisible = false\n\n\n                        }\n\n\n                        binding.textViewTimer.text =\n                            \"Time left to answer: \" + (millisUntilFinished / 1000).toString()\n                        binding.nextQuestionButton.isVisible = false\n\n                    }\n\n                    override fun onFinish() {\n                        onclickedQuestion++\n                        binding.nextQuestionButton.text = \"Next Question\"\n                        binding.nextQuestionButton.isVisible = true\n                        binding.questionNumber.text =\n                            \"Finished Questions:$items / $onclickedQuestion\"\n                        binding.textViewAnswerA.isVisible = false\n                        binding.textViewAnswerB.isVisible = false\n                        binding.textViewAnswerC.isVisible = false\n                        binding.textViewAnswerD.isVisible = false\n                        binding.textViewTimer.isVisible = false\n\n                        when (allRandom.last()) {\n                            \"0\" -> binding.textViewAnswerA.isVisible = true\n                            \"1\" -> binding.textViewAnswerB.isVisible = true\n                            \"2\" -> binding.textViewAnswerC.isVisible = true\n                            \"3\" -> binding.textViewAnswerD.isVisible = true\n                        }\n\n\n                    }\n                }\n                timer.start()\n\n\n            }\n        }\n    }\n\n\n    private fun randomAnswer(\n        correctAnswer: String,\n        amountOfQuestions: Int,\n        questionsToGenerate: List<String>\n    ): List<String> {\n        val listOfItems = mutableListOf<String>()\n        var numberOfCorrectAnswer = 0\n\n        for (i in 0..amountOfQuestions) {\n            listOfItems.add(\"\")\n        }\n        numberOfCorrectAnswer = (0..amountOfQuestions).random()\n        listOfItems[numberOfCorrectAnswer] = correctAnswer\n        for (i in 0..amountOfQuestions - 1) {\n\n            if (!listOfItems.contains(questionsToGenerate[i])) {\n\n                for ((index, a) in listOfItems.withIndex()) {\n\n                    if (listOfItems[index].isNullOrEmpty()) {\n                        listOfItems[index] = questionsToGenerate[i]\n                        break\n                    }\n                }\n\n            }\n\n        }\n\n        listOfItems.add(numberOfCorrectAnswer.toString())\n\n        return listOfItems\n    }\n\n    private fun Start() {\n\n        binding.questionNumber.text = \"Finished Questions:0\"\n        binding.textViewTimer.isVisible = false\n        binding.gamePlayCardViewAnswerA.isVisible = false\n        binding.gamePlayCardViewAnswerB.isVisible = false\n        binding.gamePlayCardViewAnswerC.isVisible = false\n        binding.gamePlayCardViewAnswerD.isVisible = false\n        binding.nextQuestionButton.isVisible = true\n        binding.nextQuestionButton.text = \"Start Quiz\"\n\n    }\n\n    companion object {\n        const val QUIZ_DATA = \"quizData\"\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ app/src/main/java/se/linerotech/quizkampen/GamePlayActivity.kt	(date 1631805411822)
+@@ -45,7 +45,7 @@
+                 binding.textViewAnswerC.isVisible = true
+                 binding.textViewAnswerD.isVisible = true
+                
+-                binding.textViewTimer.isVisible = true
++
+ 
+                 myTextViewRandomOne?.text =
+                     "Incorrect before random:${theQuestion[onclickedQuestion].incorrect_answers.toString()}"
+@@ -99,7 +99,7 @@
+                         }
+ 
+ 
+-                        binding.textViewTimer.text =
++
+                             "Time left to answer: " + (millisUntilFinished / 1000).toString()
+                         binding.nextQuestionButton.isVisible = false
+ 
+@@ -115,7 +115,6 @@
+                         binding.textViewAnswerB.isVisible = false
+                         binding.textViewAnswerC.isVisible = false
+                         binding.textViewAnswerD.isVisible = false
+-                        binding.textViewTimer.isVisible = false
+ 
+                         when (allRandom.last()) {
+                             "0" -> binding.textViewAnswerA.isVisible = true
+@@ -172,11 +171,6 @@
+     private fun Start() {
+ 
+         binding.questionNumber.text = "Finished Questions:0"
+-        binding.textViewTimer.isVisible = false
+-        binding.gamePlayCardViewAnswerA.isVisible = false
+-        binding.gamePlayCardViewAnswerB.isVisible = false
+-        binding.gamePlayCardViewAnswerC.isVisible = false
+-        binding.gamePlayCardViewAnswerD.isVisible = false
+         binding.nextQuestionButton.isVisible = true
+         binding.nextQuestionButton.text = "Start Quiz"
+ 
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"GRADLE\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 9fe7ec6802a27f9782a4802ea2366366af6f97f7)
++++ .idea/gradle.xml	(date 1631862420593)
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="GRADLE" />
++        <option name="testRunner" value="PLATFORM" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="modules">
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/runConfigurations.xml	(date 1631862420798)
++++ .idea/runConfigurations.xml	(date 1631862420798)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
