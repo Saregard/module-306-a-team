@@ -29,6 +29,15 @@ class CreateAccount : AppCompatActivity() {
     private fun accountCreation() {
         val auth = Firebase.auth
 
+        fun isValidPassword(password: String?) : Boolean {
+            password?.let {
+                val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
+                val passwordMatcher = Regex(passwordPattern)
+
+                return passwordMatcher.find(password) != null
+            } ?: return false
+        }
+
         binding.buttonSignUp.setOnClickListener {
             val email = binding.editTextSignUpEmail.text.toString().trim(){ it <= ' ' }
             val password = binding.editTextSignUpPassword.text.toString().trim(){ it <= ' ' }
@@ -73,9 +82,12 @@ class CreateAccount : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
+
                         }
                     }
             }
+
         }
     }
 }
