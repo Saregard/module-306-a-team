@@ -37,7 +37,7 @@ class GameActivity : AppCompatActivity() {
             startAlert(listOfRepos, listOfRepos.size)
 
             showQuestionsOrNot(false)
-            
+
             questionPreview(listOfRepos, listOfRepos.size)
 
         }

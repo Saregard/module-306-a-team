@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="106dp"
         android:layout_marginTop="50dp"
-        android:text="Congratulations your score is!"
+        android:text="@string/congratulations_your_score_is"
         android:textAlignment="center"
         android:textColor="#ffa384"
         android:textSize="40sp"
@@ -38,29 +38,29 @@
         android:textAlignment="center"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/playAgain"
+    <Button
+        android:id="@+id/buttonPlay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/optiondesign"
-        android:paddingTop="14dp"
-        android:layout_marginTop="20dp"
-        android:text="Play Again!"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
+        android:text="@string/play_again"
         android:textAlignment="center"
         android:clickable="true"
-        android:textColor="#272343"/>
+        android:paddingTop="14dp"
+        android:layout_marginTop="10dp"/>
 
-    <TextView
-        android:id="@+id/nextQuestionButton"
+    <Button
+        android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/optiondesign"
-        android:paddingTop="14dp"
-        android:layout_marginTop="20dp"
-        android:text="Quit Playing!"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
+        android:text="@string/quit_game"
         android:textAlignment="center"
         android:clickable="true"
-        android:textColor="#272343"/>
+        android:paddingTop="14dp"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>
 
 
