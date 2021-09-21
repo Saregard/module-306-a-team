@@ -12,6 +12,9 @@ import com.example.myquizgame.models.Token
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_create_account.*
+import kotlinx.android.synthetic.main.activity_create_account.goBackToLoginScreen
+import kotlinx.android.synthetic.main.activity_profile_page.*
 import retrofit2.Call
 import retrofit2.Callback
 import se.linerotech.quizkampen.GameActivity.Companion.QUIZ_DATA
@@ -30,10 +33,19 @@ class ProfilePage : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonPlay.setOnClickListener {
-
             getMyToken()
 
+
         }
+        buttonLogOut.setOnClickListener{
+            val bIntent = Intent (this, LoginPage::class.java)
+            startActivity(bIntent)
+
+        }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun getMyToken() {
@@ -45,14 +57,10 @@ class ProfilePage : AppCompatActivity() {
                     if (response.isSuccessful) {
 
                         getQuestions(response.body()!!.token)
-
                     }
                 }
-
                 override fun onFailure(call: Call<Token>, t: Throwable) {
-
                 }
-
 
             })
     }

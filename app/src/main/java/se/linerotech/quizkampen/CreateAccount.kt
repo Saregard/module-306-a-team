@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_create_account.*
 
 import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
 import java.lang.Exception
@@ -24,6 +25,17 @@ class CreateAccount : AppCompatActivity() {
         binding = ActivityCreateAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
         accountCreation()
+
+        goBackToLoginScreen.setOnClickListener{
+            val bIntent = Intent (this, LoginPage::class.java)
+            startActivity(bIntent)
+
+
+        }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun accountCreation() {

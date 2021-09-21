@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.myquizgame.models.Result
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.activity_game.*
 
 import se.linerotech.quizkampen.databinding.ActivityGameBinding
@@ -36,9 +37,9 @@ class GameActivity : AppCompatActivity() {
             startAlert(listOfRepos, listOfRepos.size)
 
             showQuestionsOrNot(false)
-
-
+            
             questionPreview(listOfRepos, listOfRepos.size)
+
         }
     }
     private fun selectItem():String {
