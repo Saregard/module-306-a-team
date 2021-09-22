@@ -17,5 +17,7 @@ class ResultActivity : AppCompatActivity() {
 
         val myScore=intent.getIntExtra(SCORE,0)
         binding.score.text="Score $myScore/10"
+
+
     }
 }
