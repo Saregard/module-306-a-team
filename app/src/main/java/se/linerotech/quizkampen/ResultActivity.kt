@@ -4,11 +4,19 @@ package se.linerotech.quizkampen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_profile_page.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -91,4 +99,5 @@ class ResultActivity : AppCompatActivity() {
                 }
             })
     }
+
 }
