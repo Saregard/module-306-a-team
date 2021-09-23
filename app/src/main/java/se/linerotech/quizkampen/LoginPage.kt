@@ -43,6 +43,10 @@ class LoginPage : AppCompatActivity() {
             if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(email)) {
                 binding.editTextEmail.error = "Email can not be empty"
             }
+            if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                binding.editTextEmail.error = "Email can not be empty"
+                binding.editTextPassword.error = "Password can not be empty"
+            }
             else {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
