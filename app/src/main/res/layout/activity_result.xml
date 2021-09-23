@@ -32,7 +32,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:text="Score 0/10"
         android:textColor="#ffffff"
         android:textSize="30sp"
         android:textAlignment="center"
@@ -54,13 +53,13 @@
         android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#ffa384"
-        android:textColor="#272343"
-        android:text="@string/quit_game"
-        android:textAlignment="center"
         android:clickable="true"
         android:paddingTop="14dp"
-        android:layout_marginTop="10dp"/>
+        android:text="@string/quit_game"
+        android:textAlignment="center"
+        android:textColor="#272343" />
 </LinearLayout>
 
 
