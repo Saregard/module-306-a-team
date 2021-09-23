@@ -55,6 +55,7 @@ class LoginPage : AppCompatActivity() {
                             if (auth.currentUser!!.isEmailVerified) {
                                 val intent = Intent(this, ProfilePage::class.java)
                                 startActivity(intent)
+                                finish()
                             }
                         }
                         if (!task.isSuccessful) {
