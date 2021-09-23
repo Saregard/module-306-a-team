@@ -12,7 +12,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/congrats"/>
+        android:src="@drawable/congrats"/>
 
     <TextView
         android:id="@+id/congrats"
