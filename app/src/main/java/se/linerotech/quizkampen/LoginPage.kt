@@ -16,13 +16,22 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 class LoginPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginPageBinding
-
+    private val auth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val currentUser = auth.currentUser
+        if (currentUser!=null && currentUser.isEmailVerified){
+            val intent = Intent(this, ProfilePage::class.java)
+            startActivity(intent)
+            finish()
+
+        } else {
         authentication()
         clicklistener()
+
+        }
      }
 
     private fun authentication(){
