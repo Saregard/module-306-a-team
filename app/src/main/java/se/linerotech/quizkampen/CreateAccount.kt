@@ -26,9 +26,10 @@ class CreateAccount : AppCompatActivity() {
         setContentView(binding.root)
         accountCreation()
 
-        goBackToLoginScreen.setOnClickListener{
-            val bIntent = Intent (this, LoginPage::class.java)
-            startActivity(bIntent)
+        binding.goBackToLoginScreen.setOnClickListener{
+//            val bIntent = Intent (this, LoginPage::class.java)
+//            startActivity(bIntent)
+            finish()
 
 
         }
@@ -65,9 +66,9 @@ class CreateAccount : AppCompatActivity() {
                             auth.currentUser!!.sendEmailVerification()
                             Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this, LoginPage::class.java)
-                            Log.d("Sign in", "createUserWithEmail:success")
-                            startActivity(intent)
+//                            val intent = Intent(this, LoginPage::class.java)
+//                            Log.d("Sign in", "createUserWithEmail:success")
+//                            startActivity(intent)
                             finish()
 
                         }

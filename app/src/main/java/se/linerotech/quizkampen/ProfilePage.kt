@@ -68,7 +68,7 @@ class ProfilePage : AppCompatActivity() {
             .document(auth.currentUser!!.email.toString())
             .get()
             .addOnSuccessListener { result ->
-                binding.playerName.text = result.data!!.values.first().toString()
+                binding.playerName.text = result.data?.values?.first().toString()
 
 
             }
@@ -77,9 +77,12 @@ class ProfilePage : AppCompatActivity() {
             }
         binding.textViewUserEmail.text = auth.currentUser!!.email
 
-        buttonLogOut.setOnClickListener{
+        binding.buttonLogOut.setOnClickListener{
             val bIntent = Intent (this, LoginPage::class.java)
             startActivity(bIntent)
+            Firebase.auth.signOut()
+            finish()
+
 
 
         }
