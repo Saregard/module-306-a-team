@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
@@ -102,9 +103,14 @@ class ProfilePage : AppCompatActivity() {
                     if (response.isSuccessful) {
 
                         getQuestions(response.body()!!.token)
+                    } else {
+                        Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
                     }
                 }
                 override fun onFailure(call: Call<Token>, t: Throwable) {
+                    Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Log.e(ResultActivity.FAIL,t.message.toString())
                 }
 
             })
@@ -130,11 +136,15 @@ class ProfilePage : AppCompatActivity() {
                         }
 
 
+                    } else {
+                        Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Qustions>, t: Throwable) {
-
+                    Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Log.e(ResultActivity.FAIL,t.message.toString())
                 }
             })
     }
