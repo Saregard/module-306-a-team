@@ -48,10 +48,7 @@ class ProfilePage : AppCompatActivity() {
             db.collection("users")
                 .document(auth.currentUser!!.email.toString())
                 .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
-                .addOnSuccessListener { documentReference ->
-                }
-                .addOnFailureListener { e ->
-                }
+
             db.collection("users")
                 .document(auth.currentUser!!.email.toString())
                 .get()

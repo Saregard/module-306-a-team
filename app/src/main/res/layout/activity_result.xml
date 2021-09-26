@@ -44,7 +44,6 @@
         android:textColor="#272343"
         android:text="@string/play_again"
         android:textAlignment="center"
-        android:clickable="true"
         android:paddingTop="14dp"
         android:layout_marginTop="10dp"/>
 
@@ -54,7 +53,6 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="#ffa384"
-        android:clickable="true"
         android:paddingTop="14dp"
         android:text="@string/quit_game"
         android:textAlignment="center"
