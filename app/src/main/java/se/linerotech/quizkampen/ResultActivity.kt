@@ -4,6 +4,8 @@ package se.linerotech.quizkampen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
@@ -56,20 +58,25 @@ class ResultActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
 
                         getQuestions(response.body()!!.token)
+                    } else {
+                        Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Log.e(FAIL,response.errorBody()!!.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Token>, t: Throwable) {
+                    Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Log.e(FAIL,t.message.toString())
                 }
 
             })
     }
 
     private fun getQuestions(myToken: String) {
-
+        val numberOfQuestions="10"
         GetQuestions
             .instance
-            .getQuestions("10", myToken)
+            .getQuestions(numberOfQuestions, myToken)
             .enqueue(object : Callback<Qustions> {
                 override fun onResponse(
                     call: Call<Qustions>,
@@ -85,12 +92,19 @@ class ResultActivity : AppCompatActivity() {
                             finish()
                         }
                         
+                    } else {
+                        Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Log.e(FAIL,response.errorBody()!!.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Qustions>, t: Throwable) {
-
+                    Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Log.e(FAIL,t.message.toString())
                 }
             })
+    }
+    companion object{
+        const val FAIL="fail"
     }
 }

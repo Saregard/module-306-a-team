@@ -49,11 +49,7 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_toEndOf="@+id/profile_image"
-            android:layout_below="@+id/player_name"
-            android:includeFontPadding="false"
-            android:layout_marginStart="10dp"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <LinearLayout
@@ -109,7 +105,6 @@
             android:id="@+id/score"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_gravity=""
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="Latest score:"
