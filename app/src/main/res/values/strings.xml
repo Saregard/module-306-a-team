@@ -17,4 +17,8 @@
     <string name="play_again">Play again!</string>
     <string name="quit_game">Quit Game!</string>
     <string name="name">Name</string>
+
+    <string name="create_account">Create Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
