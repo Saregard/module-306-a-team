@@ -73,10 +73,10 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun getQuestions(myToken: String) {
-
+        val numberOfQuestions="10"
         GetQuestions
             .instance
-            .getQuestions("10", myToken)
+            .getQuestions(numberOfQuestions, myToken)
             .enqueue(object : Callback<Qustions> {
                 override fun onResponse(
                     call: Call<Qustions>,
