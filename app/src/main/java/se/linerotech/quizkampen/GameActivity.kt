@@ -23,6 +23,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var timer:CountDownTimer
     private var enableClick=false
     private var onClickedQuestion=0
+    var selectedItem: String=""
     private var score=0
     val regexQuot = "&quot;"
     val regexUpper = "&#039;"
@@ -43,7 +44,13 @@ class GameActivity : AppCompatActivity() {
         }
     }
     private fun selectItem():String {
-        var selectedItem: String=""
+       clickedOnA()
+       clickedOnB()
+       clickedOnC()
+       clickedOnD()
+       return selectedItem
+    }
+    private fun clickedOnA(){
         binding.gamePlayCardViewAnswerA.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[0]
@@ -52,11 +59,13 @@ class GameActivity : AppCompatActivity() {
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.WHITE)
-                enableClick=false
+                enableClick = false
                 timer.cancel()
                 timer.onFinish()
             }
         }
+    }
+    private fun clickedOnB(){
         binding.gamePlayCardViewAnswerB.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[1]
@@ -70,6 +79,8 @@ class GameActivity : AppCompatActivity() {
                 timer.onFinish()
             }
         }
+    }
+    private fun clickedOnC(){
         binding.gamePlayCardViewAnswerC.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[2]
@@ -83,6 +94,8 @@ class GameActivity : AppCompatActivity() {
                 timer.onFinish()
             }
         }
+    }
+    private fun clickedOnD(){
         binding.gamePlayCardViewAnswerD.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[3]
@@ -96,9 +109,8 @@ class GameActivity : AppCompatActivity() {
                 timer.onFinish()
             }
         }
-
-        return selectedItem
     }
+
     private fun firstStart(theQuestion:ArrayList<Result>, items:Int){
         showQuestionsOrNot(true)
         setBackgroundColorForQuestions(Color.WHITE)
@@ -147,16 +159,10 @@ class GameActivity : AppCompatActivity() {
                     score++
                 }
 
-
-
-
-
             }
         }
         timer.start()
         selectItem()
-
-
     }
     private fun questionPreview(theQuestion:ArrayList<Result>, items:Int){
         binding.nextQuestionButton.setOnClickListener {
