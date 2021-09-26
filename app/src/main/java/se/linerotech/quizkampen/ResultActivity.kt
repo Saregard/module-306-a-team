@@ -34,9 +34,10 @@ class ResultActivity : AppCompatActivity() {
 
 
         }
-        buttonLogOut.setOnClickListener {
-            val bIntent = Intent(this, ProfilePage::class.java)
-            startActivity(bIntent)
+        binding.buttonLogOut.setOnClickListener {
+//            val bIntent = Intent(this, ProfilePage::class.java)
+//            startActivity(bIntent)
+            finish()
 
         }
     }
@@ -81,6 +82,7 @@ class ResultActivity : AppCompatActivity() {
                             val intent = Intent(this@ResultActivity, GameActivity::class.java)
                             intent.putParcelableArrayListExtra(GameActivity.QUIZ_DATA, it)
                             startActivity(intent)
+                            finish()
                         }
                         
                     }
