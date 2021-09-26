@@ -1,3 +1,5 @@
+[![Ktlint](https://github.com/linero-tech/module-306-a-team/actions/workflows/wf-ktlint.yml/badge.svg)](https://github.com/linero-tech/module-306-a-team/actions/workflows/wf-ktlint.yml)
+
 # Android Assignment
 
 This is an empty repository where you must save your Android Studio project.

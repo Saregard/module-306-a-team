@@ -1,9 +1,11 @@
 package se.linerotech.quizkampen
 
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
@@ -32,14 +34,56 @@ class ProfilePage : AppCompatActivity() {
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        val myScore = intent.getIntExtra(GameActivity.SCORE, 0)
+        binding.score.text = "Latest Score: $myScore/10"
+
         binding.buttonPlay.setOnClickListener {
             getMyToken()
 
+        }
+        binding.changeInfo.setOnClickListener{
+            val db = Firebase.firestore
+            db.collection("users")
+                .document(auth.currentUser!!.email.toString())
+                .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
+                .addOnSuccessListener { documentReference ->
+                }
+                .addOnFailureListener { e ->
+                }
+            db.collection("users")
+                .document(auth.currentUser!!.email.toString())
+                .get()
+                .addOnSuccessListener { result ->
+                    binding.playerName.text = result.data!!.values.first().toString()
+
+
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents.", exception)
+                }
 
         }
-        buttonLogOut.setOnClickListener{
+        db.collection("users")
+            .document(auth.currentUser!!.email.toString())
+            .get()
+            .addOnSuccessListener { result ->
+                binding.playerName.text = result.data?.values?.first().toString()
+
+
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
+        binding.textViewUserEmail.text = auth.currentUser!!.email
+
+        binding.buttonLogOut.setOnClickListener{
             val bIntent = Intent (this, LoginPage::class.java)
             startActivity(bIntent)
+            Firebase.auth.signOut()
+            finish()
+
+
 
         }
     }
@@ -47,6 +91,7 @@ class ProfilePage : AppCompatActivity() {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
+
 
     private fun getMyToken() {
         RetrofitClient
