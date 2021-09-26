@@ -7,6 +7,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +21,7 @@ import java.lang.Exception
 class CreateAccount : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateAccountBinding
+    val auth = Firebase.auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +43,7 @@ class CreateAccount : AppCompatActivity() {
     }
 
     private fun accountCreation() {
-        val auth = Firebase.auth
+
 
         binding.buttonSignUp.setOnClickListener {
             val email = binding.editTextSignUpEmail.text.toString().trim(){ it <= ' ' }
@@ -59,36 +62,37 @@ class CreateAccount : AppCompatActivity() {
                     binding.editTextSignUpEmail.text.toString(),
                     binding.editTextSignUpPassword.text.toString()
                 )
-                    .addOnCompleteListener(this) { task ->
-
+                    .addOnCompleteListener(this) { task->
                         if (task.isSuccessful && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                             // Sign in success, update UI with the signed-in user's information
-                            auth.currentUser!!.sendEmailVerification()
-                            Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
-
-//                            val intent = Intent(this, LoginPage::class.java)
-//                            Log.d("Sign in", "createUserWithEmail:success")
-//                            startActivity(intent)
-                            finish()
-
+                            createSuccess()
                         }
                         if (!task.isSuccessful) {
-                            try {
-                                throw task.exception!!
-                            } catch (e: FirebaseAuthWeakPasswordException) {
-                                binding.editTextSignUpPassword.error = "Weak Password"
-                            } catch (e: FirebaseAuthUserCollisionException) {
-                                binding.editTextSignUpEmail.error = "This email is already in use"
-                            } catch (e: Exception) {
-                                Log.w("Failed", "createUserWithEmail:failure", task.exception)
-                                Toast.makeText(
-                                    baseContext, "Authentication failed.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                           createFail(task)
                         }
                     }
             }
         }
     }
+    private fun createSuccess(){
+        auth.currentUser!!.sendEmailVerification()
+        Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+    private fun createFail(task:Task<AuthResult>) {
+        try {
+            throw task.exception!!
+        } catch (e: FirebaseAuthWeakPasswordException) {
+            binding.editTextSignUpPassword.error = "Weak Password"
+        } catch (e: FirebaseAuthUserCollisionException) {
+            binding.editTextSignUpEmail.error = "This email is already in use"
+        } catch (e: Exception) {
+            Log.w("Failed", "createUserWithEmail:failure", task.exception)
+            Toast.makeText(
+                baseContext, "Authentication failed.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
 }
