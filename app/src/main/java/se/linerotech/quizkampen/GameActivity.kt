@@ -28,6 +28,7 @@ class GameActivity : AppCompatActivity() {
     val regexQuot = "&quot;"
     val regexUpper = "&#039;"
     val toChar = '"'
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityGameBinding.inflate(layoutInflater)
@@ -229,16 +230,12 @@ class GameActivity : AppCompatActivity() {
                 }
                 timer.start()
                 selectItem()
-
-
-
             }
         }
     }
     private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {
 
         if (numberAnswers == 5) {
-
             binding.textViewAnswerA.text =
                 allRandom[0]
                     .replace(regexQuot, toChar.toString())
