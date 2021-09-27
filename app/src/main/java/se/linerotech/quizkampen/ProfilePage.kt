@@ -16,7 +16,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_create_account.*
-import kotlinx.android.synthetic.main.activity_create_account.goBackToLoginScreen
 import kotlinx.android.synthetic.main.activity_profile_page.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,65 +34,51 @@ class ProfilePage : AppCompatActivity() {
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        loadUserDetails()
         val myScore = intent.getIntExtra(GameActivity.SCORE, 0)
         binding.score.text = "Latest Score: $myScore/10"
-
         binding.buttonPlay.setOnClickListener {
             getMyToken()
-
         }
-        binding.changeInfo.setOnClickListener{
-            val db = Firebase.firestore
-            db.collection("users")
-                .document(auth.currentUser!!.email.toString())
-                .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
-                .addOnSuccessListener { documentReference ->
-                }
-                .addOnFailureListener { e ->
-                }
-            db.collection("users")
-                .document(auth.currentUser!!.email.toString())
-                .get()
-                .addOnSuccessListener { result ->
-                    binding.playerName.text = result.data!!.values.first().toString()
-
-
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents.", exception)
-                }
-
+        binding.changeInfo.setOnClickListener {
+            changeUserName()
         }
-        db.collection("users")
-            .document(auth.currentUser!!.email.toString())
-            .get()
-            .addOnSuccessListener { result ->
-                binding.playerName.text = result.data?.values?.first().toString()
-
-
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
-            }
         binding.textViewUserEmail.text = auth.currentUser!!.email
-
         binding.buttonLogOut.setOnClickListener{
             val bIntent = Intent (this, LoginPage::class.java)
             startActivity(bIntent)
             Firebase.auth.signOut()
             finish()
-
-
-
         }
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
 
+    private fun changeUserName(){
+        db.collection("users")
+            .document(auth.currentUser!!.email.toString())
+            .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
+            .addOnSuccessListener { documentReference ->
+            }
+            .addOnFailureListener { e ->
+            }
+       loadUserDetails()
+    }
+    private fun loadUserDetails(){
+        db.collection("users")
+            .document(auth.currentUser!!.email.toString())
+            .get()
+            .addOnSuccessListener { result ->
+                binding.playerName.text = result.data!!.values.first().toString()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
 
+    }
     private fun getMyToken() {
         RetrofitClient
             .instance

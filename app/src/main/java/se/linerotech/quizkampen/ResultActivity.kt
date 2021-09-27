@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
 import com.example.myquizgame.models.Result
