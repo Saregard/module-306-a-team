@@ -40,7 +40,7 @@ class GameActivity : AppCompatActivity() {
 
             showQuestionsOrNot(false)
 
-            questionPreview(listOfRepos, listOfRepos.size)
+            questionPreview(listOfRepos, listOfRepos.size,12)
 
         }
     }
@@ -112,12 +112,11 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun firstStart(theQuestion:ArrayList<Result>, items:Int){
+    private fun startSettings(theQuestion:ArrayList<Result>, items:Int,maxProgress:Int){
         showQuestionsOrNot(true)
         setBackgroundColorForQuestions(Color.WHITE)
         enableClick=true
         binding.textViewTimer.isVisible=true
-
         allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
             theQuestion[onClickedQuestion].incorrect_answers.size,
             theQuestion[onClickedQuestion].incorrect_answers)
@@ -128,44 +127,54 @@ class GameActivity : AppCompatActivity() {
 
         displayAnswers(allRandom,allRandom.size)
         binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
-        binding.textViewTimer.max=12
+        binding.textViewTimer.max=maxProgress
         binding.textViewTimer.progress
-        timer = object : CountDownTimer(12000, 1000) {
+    }
+    private fun progressBarCheck(timerTime:Long){
+        binding.textViewTimer.progress =(timerTime / 1000).toInt()
 
+        if (binding.textViewTimer.progress<(textViewTimer.max/3)){
+            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
+
+        }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
+            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
+
+        }
+        binding.nextQuestionButton .isVisible = false
+
+    }
+    private fun timerFinish(items:Int){
+        onClickedQuestion++
+        binding.nextQuestionButton.text=getString(R.string.next)
+        binding.nextQuestionButton.isVisible = true
+        binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
+        binding.textViewTimer.isVisible=false
+
+        checkItem(mySelectedItem?.second.toString(), Color.RED)
+        checkItem(allRandom.last(), Color.GREEN)
+
+        if(mySelectedItem?.second.toString()==allRandom.last()){
+            Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
+            score++
+        }
+
+    }
+    private fun firstStart(theQuestion:ArrayList<Result>, items:Int,roundDuration:Int){
+        startSettings(theQuestion,items,roundDuration)
+        timer = object : CountDownTimer((roundDuration*1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
-                binding.textViewTimer.progress =(millisUntilFinished / 1000).toInt()
-                if (binding.textViewTimer.progress<(textViewTimer.max/3)){
-                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
+               progressBarCheck(millisUntilFinished)
 
-                }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
-                    binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
-
-                }
-                binding.nextQuestionButton .isVisible = false
             }
-
             override fun onFinish() {
-                onClickedQuestion++
-                binding.nextQuestionButton.text=getString(R.string.next)
-                binding.nextQuestionButton.isVisible = true
-                binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
-                binding.textViewTimer.isVisible=false
-
-                checkItem(mySelectedItem?.second.toString(), Color.RED)
-                checkItem(allRandom.last(), Color.GREEN)
-
-                if(mySelectedItem?.second.toString()==allRandom.last()){
-                    Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
-                    score++
-                }
-
+                timerFinish(items)
             }
         }
         timer.start()
         selectItem()
     }
-    private fun questionPreview(theQuestion:ArrayList<Result>, items:Int){
+    private fun questionPreview(theQuestion:ArrayList<Result>, items:Int,timerTime:Int){
         binding.nextQuestionButton.setOnClickListener {
             if (onClickedQuestion == theQuestion.size) {
                 binding.nextQuestionButton.isVisible = false
@@ -173,59 +182,14 @@ class GameActivity : AppCompatActivity() {
                 intent.putExtra(SCORE,score)
                 startActivity(intent)
                 finish()
-
             } else {
-
-                showQuestionsOrNot(true)
-                setBackgroundColorForQuestions(Color.WHITE)
-                enableClick=true
-                binding.textViewTimer.isVisible=true
-
-                allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
-                    theQuestion[onClickedQuestion].incorrect_answers.size,
-                    theQuestion[onClickedQuestion].incorrect_answers)
-
-                binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
-
-                displayAnswers(allRandom,allRandom.size)
-                binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
-                binding.textViewTimer.max=12
-                binding.textViewTimer.progress
-
-                timer = object : CountDownTimer(12000, 1000) {
+                startSettings(theQuestion,items,timerTime)
+                timer = object : CountDownTimer((timerTime*1000).toLong(), 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-
-                        binding.textViewTimer.progress=(millisUntilFinished / 1000).toInt()
-                        if (binding.textViewTimer.progress<(textViewTimer.max/3)){
-                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.RED)
-
-                        }else if (binding.textViewTimer.progress<(textViewTimer.max/1.5)){
-                            binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.YELLOW)
-
-                        }
-                        binding.nextQuestionButton .isVisible = false
+                        progressBarCheck(millisUntilFinished)
                     }
-
                     override fun onFinish() {
-                        onClickedQuestion++
-                        binding.nextQuestionButton.text=getString(R.string.next)
-                        binding.nextQuestionButton.isVisible = true
-                        binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
-                        binding.textViewTimer.isVisible=false
-
-                        checkItem(mySelectedItem?.second.toString(), Color.RED)
-                        checkItem(allRandom.last(), Color.GREEN)
-
-                        if(mySelectedItem?.second.toString()==allRandom.last()){
-                            Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
-                            score++
-                        }
-
-
-
-
+                       timerFinish(items)
                     }
                 }
                 timer.start()
@@ -233,9 +197,28 @@ class GameActivity : AppCompatActivity() {
             }
         }
     }
-    private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {
 
-        if (numberAnswers == 5) {
+    private fun answersFour(){
+        binding.textViewAnswerA.text =
+            allRandom[0]
+                .replace(regexQuot, toChar.toString())
+                .replace(regexUpper, "'")
+        binding.textViewAnswerB.text =
+            allRandom[1]
+                .replace(regexQuot, toChar.toString())
+                .replace(regexUpper, "'")
+        binding.textViewAnswerC.text =
+            allRandom[2]
+                .replace(regexQuot, toChar.toString())
+                .replace(regexUpper, "'")
+        binding.textViewAnswerD.text =
+            allRandom[3]
+                .replace(regexQuot, toChar.toString())
+                .replace(regexUpper, "'")
+
+    }
+    private fun answersTwo(randomField:Int){
+        if (randomField==0){
             binding.textViewAnswerA.text =
                 allRandom[0]
                     .replace(regexQuot, toChar.toString())
@@ -244,74 +227,51 @@ class GameActivity : AppCompatActivity() {
                 allRandom[1]
                     .replace(regexQuot, toChar.toString())
                     .replace(regexUpper, "'")
-            binding.textViewAnswerC.text =
-                allRandom[2]
+        } else {
+            binding.textViewAnswerA.text =
+                allRandom[0]
                     .replace(regexQuot, toChar.toString())
                     .replace(regexUpper, "'")
-            binding.textViewAnswerD.text =
-                allRandom[3]
+            binding.textViewAnswerB.text =
+                allRandom[1]
                     .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
-
+        }
+    }
+    private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {
+        if (numberAnswers == 5) {
+            answersFour()
         }
         if (numberAnswers == 3) {
             val randomField=(0..1).random()
-            if (randomField==0){
-                binding.textViewAnswerA.text =
-                    allRandom[0]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
-                binding.textViewAnswerB.text =
-                    allRandom[1]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
-            } else {
-                binding.textViewAnswerA.text =
-                    allRandom[0]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
-                binding.textViewAnswerB.text =
-                    allRandom[1]
-                        .replace(regexQuot, toChar.toString())
-            }
-
+            answersTwo(randomField)
             binding.textViewAnswerC.isVisible = false
             binding.gamePlayCardViewAnswerC.isVisible = false
             binding.textViewAnswerD.isVisible = false
             binding.gamePlayCardViewAnswerD.isVisible = false
-
         }
-
     }
     private fun randomAnswer(correctAnswer:String,amountOfQuestions:Int,questionsToGenerate:List<String>):List<String>{
         val listOfItems= mutableListOf<String>()
         var numberOfCorrectAnswer=0
-
         for(i in 0..amountOfQuestions){
             listOfItems.add("")
         }
         numberOfCorrectAnswer=(0..amountOfQuestions).random()
         listOfItems[numberOfCorrectAnswer] = correctAnswer
         for (i in 0..amountOfQuestions-1) {
-
             if (!listOfItems.contains(questionsToGenerate[i])) {
-
                 for ((index,a) in listOfItems.withIndex()){
-
                     if (listOfItems[index].isNullOrEmpty()){
                         listOfItems[index]=questionsToGenerate[i]
                         break
                     }
                 }
-
             }
-
         }
-
         listOfItems.add(numberOfCorrectAnswer.toString())
-
         return listOfItems
     }
+
     private fun showQuestionsOrNot(choice:Boolean){
         binding.cardView.isVisible=choice
         binding.textViewAnswerA.isVisible=choice
@@ -368,7 +328,7 @@ class GameActivity : AppCompatActivity() {
                     "have 12 seconds each otherwise when timer finished it will move forward" +
                     "and you will not earn points.")
             .setNeutralButton("Let's get started!") { p0, p1 ->
-                firstStart(theQuestion,items)
+                firstStart(theQuestion,items,12)
             }.setCancelable(false).show()
     }
 

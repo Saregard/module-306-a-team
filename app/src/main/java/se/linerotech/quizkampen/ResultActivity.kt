@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
 import com.example.myquizgame.models.Qustions
 import com.example.myquizgame.models.Result
@@ -74,8 +73,8 @@ class ResultActivity : AppCompatActivity() {
 
     private fun getQuestions(myToken: String) {
         val numberOfQuestions="10"
-        GetQuestions
-            .instance
+        RetrofitClient
+            .instanceTwo
             .getQuestions(numberOfQuestions, myToken)
             .enqueue(object : Callback<Qustions> {
                 override fun onResponse(
