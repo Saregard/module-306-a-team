@@ -73,8 +73,8 @@ class ResultActivity : AppCompatActivity() {
 
     private fun getQuestions(myToken: String) {
         val numberOfQuestions="10"
-        GetQuestions
-            .instance
+        RetrofitClient
+            .instanceTwo
             .getQuestions(numberOfQuestions, myToken)
             .enqueue(object : Callback<Qustions> {
                 override fun onResponse(

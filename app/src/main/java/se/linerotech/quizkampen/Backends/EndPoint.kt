@@ -13,3 +13,12 @@ interface EndpointToken {
 
     ): Call<Token>
 }
+
+interface EndpointQuestions {
+    @GET("/api.php")
+    fun getQuestions(
+        @Query("amount") amount: String,
+        @Query("token") token: String
+
+    ): Call<Qustions>
+}
