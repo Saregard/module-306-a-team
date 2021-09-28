@@ -19,6 +19,5 @@ interface EndpointQuestions {
     fun getQuestions(
         @Query("amount") amount: String,
         @Query("token") token: String
-
     ): Call<Qustions>
 }
