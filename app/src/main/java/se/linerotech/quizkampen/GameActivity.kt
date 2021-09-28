@@ -18,25 +18,25 @@ import se.linerotech.quizkampen.databinding.ActivityGameBinding
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
-    private lateinit var allRandom:List<String>
-    private var mySelectedItem:Pair<String,Int>?=null
+    private lateinit var randomQuestion:List<String>
+    private var randomItem:Pair<String,Int>?=null
     private lateinit var timer:CountDownTimer
     private var enableClick=false
     private var onClickedQuestion=0
     var selectedItem: String=""
     private var score=0
-    val regexQuot = "&quot;"
-    val regexUpper = "&#039;"
+    val regexTextFormat = "&quot;"
+    val regexTextFormat2 = "&#039;"
     val toChar = '"'
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        start()
+        startQuestion()
         val listOfRepos = intent.getParcelableArrayListExtra<Result>(QUIZ_DATA)
         listOfRepos?.let {
-            startAlert(listOfRepos, listOfRepos.size)
+            alert(listOfRepos, listOfRepos.size)
 
             showQuestionsOrNot(false)
 
@@ -54,8 +54,8 @@ class GameActivity : AppCompatActivity() {
     private fun clickedOnA(){
         binding.gamePlayCardViewAnswerA.setOnClickListener {
             if (enableClick) {
-                selectedItem = allRandom[0]
-                mySelectedItem = Pair(selectedItem, 0)
+                selectedItem = randomQuestion[0]
+                randomItem = Pair(selectedItem, 0)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.WHITE)
@@ -69,8 +69,8 @@ class GameActivity : AppCompatActivity() {
     private fun clickedOnB(){
         binding.gamePlayCardViewAnswerB.setOnClickListener {
             if (enableClick) {
-                selectedItem = allRandom[1]
-                mySelectedItem = Pair(selectedItem, 1)
+                selectedItem = randomQuestion[1]
+                randomItem = Pair(selectedItem, 1)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.WHITE)
@@ -84,8 +84,8 @@ class GameActivity : AppCompatActivity() {
     private fun clickedOnC(){
         binding.gamePlayCardViewAnswerC.setOnClickListener {
             if (enableClick) {
-                selectedItem = allRandom[2]
-                mySelectedItem = Pair(selectedItem, 2)
+                selectedItem = randomQuestion[2]
+                randomItem = Pair(selectedItem, 2)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
@@ -99,8 +99,8 @@ class GameActivity : AppCompatActivity() {
     private fun clickedOnD(){
         binding.gamePlayCardViewAnswerD.setOnClickListener {
             if (enableClick) {
-                selectedItem = allRandom[3]
-                mySelectedItem = Pair(selectedItem, 3)
+                selectedItem = randomQuestion[3]
+                randomItem = Pair(selectedItem, 3)
                 binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
@@ -118,15 +118,15 @@ class GameActivity : AppCompatActivity() {
         enableClick=true
         binding.textViewTimer.isVisible=true
 
-        allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
+        randomQuestion=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
             theQuestion[onClickedQuestion].incorrect_answers.size,
             theQuestion[onClickedQuestion].incorrect_answers)
 
         binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
-            .replace(regexQuot, toChar.toString())
-            .replace(regexUpper, "'")
+            .replace(regexTextFormat, toChar.toString())
+            .replace(regexTextFormat2, "'")
 
-        displayAnswers(allRandom,allRandom.size)
+        displayAnswers(randomQuestion,randomQuestion.size)
         binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
         binding.textViewTimer.max=12
         binding.textViewTimer.progress
@@ -152,10 +152,10 @@ class GameActivity : AppCompatActivity() {
                 binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
                 binding.textViewTimer.isVisible=false
 
-                checkItem(mySelectedItem?.second.toString(), Color.RED)
-                checkItem(allRandom.last(), Color.GREEN)
+                checkItem(randomItem?.second.toString(), Color.RED)
+                checkItem(randomQuestion.last(), Color.GREEN)
 
-                if(mySelectedItem?.second.toString()==allRandom.last()){
+                if(randomItem?.second.toString()==randomQuestion.last()){
                     Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
                     score++
                 }
@@ -181,15 +181,15 @@ class GameActivity : AppCompatActivity() {
                 enableClick=true
                 binding.textViewTimer.isVisible=true
 
-                allRandom=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
+                randomQuestion=randomAnswer(theQuestion[onClickedQuestion].correct_answer,
                     theQuestion[onClickedQuestion].incorrect_answers.size,
                     theQuestion[onClickedQuestion].incorrect_answers)
 
                 binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
+                    .replace(regexTextFormat, toChar.toString())
+                    .replace(regexTextFormat2, "'")
 
-                displayAnswers(allRandom,allRandom.size)
+                displayAnswers(randomQuestion,randomQuestion.size)
                 binding.textViewTimer.progressTintList = ColorStateList.valueOf(Color.GREEN)
                 binding.textViewTimer.max=12
                 binding.textViewTimer.progress
@@ -215,10 +215,10 @@ class GameActivity : AppCompatActivity() {
                         binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
                         binding.textViewTimer.isVisible=false
 
-                        checkItem(mySelectedItem?.second.toString(), Color.RED)
-                        checkItem(allRandom.last(), Color.GREEN)
+                        checkItem(randomItem?.second.toString(), Color.RED)
+                        checkItem(randomQuestion.last(), Color.GREEN)
 
-                        if(mySelectedItem?.second.toString()==allRandom.last()){
+                        if(randomItem?.second.toString()==randomQuestion.last()){
                             Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
                             score++
                         }
@@ -237,42 +237,42 @@ class GameActivity : AppCompatActivity() {
 
         if (numberAnswers == 5) {
             binding.textViewAnswerA.text =
-                allRandom[0]
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
+                randomQuestion[0]
+                    .replace(regexTextFormat, toChar.toString())
+                    .replace(regexTextFormat2, "'")
             binding.textViewAnswerB.text =
-                allRandom[1]
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
+                randomQuestion[1]
+                    .replace(regexTextFormat, toChar.toString())
+                    .replace(regexTextFormat2, "'")
             binding.textViewAnswerC.text =
-                allRandom[2]
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
+                randomQuestion[2]
+                    .replace(regexTextFormat, toChar.toString())
+                    .replace(regexTextFormat2, "'")
             binding.textViewAnswerD.text =
-                allRandom[3]
-                    .replace(regexQuot, toChar.toString())
-                    .replace(regexUpper, "'")
+                randomQuestion[3]
+                    .replace(regexTextFormat, toChar.toString())
+                    .replace(regexTextFormat2, "'")
 
         }
         if (numberAnswers == 3) {
             val randomField=(0..1).random()
             if (randomField==0){
                 binding.textViewAnswerA.text =
-                    allRandom[0]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
+                    randomQuestion[0]
+                        .replace(regexTextFormat, toChar.toString())
+                        .replace(regexTextFormat2, "'")
                 binding.textViewAnswerB.text =
-                    allRandom[1]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
+                    randomQuestion[1]
+                        .replace(regexTextFormat, toChar.toString())
+                        .replace(regexTextFormat2, "'")
             } else {
                 binding.textViewAnswerA.text =
-                    allRandom[0]
-                        .replace(regexQuot, toChar.toString())
-                        .replace(regexUpper, "'")
+                    randomQuestion[0]
+                        .replace(regexTextFormat, toChar.toString())
+                        .replace(regexTextFormat2, "'")
                 binding.textViewAnswerB.text =
-                    allRandom[1]
-                        .replace(regexQuot, toChar.toString())
+                    randomQuestion[1]
+                        .replace(regexTextFormat, toChar.toString())
             }
 
             binding.textViewAnswerC.isVisible = false
@@ -323,7 +323,7 @@ class GameActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerC.isVisible=choice
         binding.gamePlayCardViewAnswerD.isVisible=choice
     }
-    private fun start(){
+    private fun startQuestion(){
         binding.cardView.isVisible=false
         binding.questionNumber.text=getString(R.string.quest)
         binding.textViewTimer.isVisible=false
@@ -355,13 +355,13 @@ class GameActivity : AppCompatActivity() {
         }
 
     }
-    private fun setBackgroundColorForQuestions(mustHaveColor:Int){
-        binding.gamePlayCardViewAnswerA.setCardBackgroundColor(mustHaveColor)
-        binding.gamePlayCardViewAnswerB.setCardBackgroundColor(mustHaveColor)
-        binding.gamePlayCardViewAnswerC.setCardBackgroundColor(mustHaveColor)
-        binding.gamePlayCardViewAnswerD.setCardBackgroundColor(mustHaveColor)
+    private fun setBackgroundColorForQuestions(color:Int){
+        binding.gamePlayCardViewAnswerA.setCardBackgroundColor(color)
+        binding.gamePlayCardViewAnswerB.setCardBackgroundColor(color)
+        binding.gamePlayCardViewAnswerC.setCardBackgroundColor(color)
+        binding.gamePlayCardViewAnswerD.setCardBackgroundColor(color)
     }
-    private fun startAlert(theQuestion:ArrayList<Result>, items:Int) {
+    private fun alert(theQuestion:ArrayList<Result>, items:Int) {
         MaterialAlertDialogBuilder(this)
             .setTitle("Welcome to 10 Blitz Quiz")
             .setMessage("In this game , you will be granted with 10 questions.To answer them you" +

@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
-import com.example.myquizgame.models.Qustions
+import com.example.myquizgame.models.Question
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
 import kotlinx.android.synthetic.main.activity_profile_page.*
@@ -27,12 +27,12 @@ class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val myScore = intent.getIntExtra(SCORE, 0)
-        binding.score.text = "Score $myScore/10"
+        val userScore = intent.getIntExtra(SCORE, 0)
+        binding.score.text = "Score $userScore/10"
 
 
         binding.buttonPlay.setOnClickListener {
-            getMyToken()
+            gameQuestion()
 
 
         }
@@ -49,7 +49,7 @@ class ResultActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun getMyToken() {
+    private fun gameQuestion() {
         RetrofitClient
             .instance
             .getToken("request")
@@ -57,7 +57,7 @@ class ResultActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
                     if (response.isSuccessful) {
 
-                        getQuestions(response.body()!!.token)
+                        questions(response.body()!!.token)
                     } else {
                         Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(FAIL,response.errorBody()!!.string())
@@ -72,15 +72,15 @@ class ResultActivity : AppCompatActivity() {
             })
     }
 
-    private fun getQuestions(myToken: String) {
+    private fun questions(myToken: String) {
         val numberOfQuestions="10"
         GetQuestions
             .instance
             .getQuestions(numberOfQuestions, myToken)
-            .enqueue(object : Callback<Qustions> {
+            .enqueue(object : Callback<Question> {
                 override fun onResponse(
-                    call: Call<Qustions>,
-                    response: retrofit2.Response<Qustions>
+                    call: Call<Question>,
+                    response: retrofit2.Response<Question>
                 ) {
                     if (response.isSuccessful) {
 
@@ -98,7 +98,7 @@ class ResultActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<Qustions>, t: Throwable) {
+                override fun onFailure(call: Call<Question>, t: Throwable) {
                     Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(FAIL,t.message.toString())
                 }

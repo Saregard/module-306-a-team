@@ -29,7 +29,7 @@ class LoginPage : AppCompatActivity() {
 
         } else {
         authentication()
-        clicklistener()
+        newAccount()
 
         }
      }
@@ -84,7 +84,7 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
-    private fun clicklistener(){
+    private fun newAccount(){
         binding.buttonlickToCreateAccount.setOnClickListener{
             Log.d("MainActivity", "Create account")
             val intent = Intent(this, CreateAccount::class.java)
