@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">quiz kampen</string>
     <string name="Login">login</string>
-    <string name="fin">Finished Questions:0</string>
+    <string name="fin">Finished Questions</string>
     <string name="start">Start Quiz</string>
     <string name="next">Next</string>
     <string name="quest">Question</string>

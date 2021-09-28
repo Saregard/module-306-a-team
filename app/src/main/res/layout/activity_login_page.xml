@@ -17,7 +17,7 @@
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         tools:text="Quiz 2021" />
 
     <EditText
@@ -27,8 +27,8 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:hint="@string/email"
-        android:textColorHint="#ffa384"
-        android:textColor="#ffa384"
+        android:textColorHint="@color/quiz_orange"
+        android:textColor="@color/quiz_orange"
         android:inputType="textEmailAddress"
         android:textAlignment="center" />
 
@@ -39,8 +39,8 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:hint="@string/password"
-        android:textColorHint="#ffa384"
-        android:textColor="#ffa384"
+        android:textColorHint="@color/quiz_orange"
+        android:textColor="@color/quiz_orange"
         android:inputType="textPassword"
         android:textAlignment="center" />
 
@@ -48,8 +48,8 @@
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="#ffa384"
-        android:textColor="#272343"
+        android:backgroundTint="@color/quiz_orange"
+        android:textColor="@color/quiz_blue"
         android:textAlignment="center"
         android:clickable="true"
         android:paddingTop="14dp"
@@ -59,8 +59,8 @@
         android:id="@+id/buttonlickToCreateAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#ffa384"
-        android:textColor="#272343"
+        android:backgroundTint="@color/quiz_orange"
+        android:textColor="@color/quiz_blue"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="@string/create_account" />
