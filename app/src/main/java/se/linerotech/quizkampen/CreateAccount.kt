@@ -30,12 +30,9 @@ class CreateAccount : AppCompatActivity() {
         accountCreation()
 
         binding.goBackToLoginScreen.setOnClickListener{
-//            val bIntent = Intent (this, LoginPage::class.java)
-//            startActivity(bIntent)
             finish()
-
-
         }
+
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

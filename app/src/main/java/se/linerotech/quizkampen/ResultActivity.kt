@@ -36,8 +36,6 @@ class ResultActivity : AppCompatActivity() {
 
         }
         binding.buttonLogOut.setOnClickListener {
-//            val bIntent = Intent(this, ProfilePage::class.java)
-//            startActivity(bIntent)
             finish()
 
         }
