@@ -285,7 +285,7 @@ class GameActivity : AppCompatActivity() {
     }
     private fun start(){
         binding.cardView.isVisible=false
-        binding.questionNumber.text=getString(R.string.quest)
+        binding.questionNumber.text=getString(R.string.question)
         binding.textViewTimer.isVisible=false
         binding.nextQuestionButton.isVisible=false
         binding.nextQuestionButton.text=getString(R.string.next)
