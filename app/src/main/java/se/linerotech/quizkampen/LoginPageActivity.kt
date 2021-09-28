@@ -13,7 +13,7 @@ import se.linerotech.quizkampen.databinding.ActivityLoginPageBinding
 import java.lang.Exception
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
-class LoginPage : AppCompatActivity() {
+class LoginPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginPageBinding
     private val auth = Firebase.auth
@@ -23,7 +23,7 @@ class LoginPage : AppCompatActivity() {
         setContentView(binding.root)
         val currentUser = auth.currentUser
         if (currentUser!=null && currentUser.isEmailVerified){
-            val intent = Intent(this, ProfilePage::class.java)
+            val intent = Intent(this, ProfilePageActivity::class.java)
             startActivity(intent)
             finish()
 
@@ -62,7 +62,7 @@ class LoginPage : AppCompatActivity() {
                         if (task.isSuccessful) {
 
                             if (auth.currentUser!!.isEmailVerified) {
-                                val intent = Intent(this, ProfilePage::class.java)
+                                val intent = Intent(this, ProfilePageActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
@@ -87,7 +87,7 @@ class LoginPage : AppCompatActivity() {
     private fun clicklistener(){
         binding.buttonlickToCreateAccount.setOnClickListener{
             Log.d("MainActivity", "Create account")
-            val intent = Intent(this, CreateAccount::class.java)
+            val intent = Intent(this, CreateAccountActivity::class.java)
             startActivity(intent)
         }
     }

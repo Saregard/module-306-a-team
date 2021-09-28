@@ -13,9 +13,9 @@
             android:name=".GameActivity"
             android:exported="true" />
         <activity android:name=".ResultActivity" />
-        <activity android:name=".CreateAccount" />
-        <activity android:name=".ProfilePage" />
-        <activity android:name=".LoginPage">
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".ProfilePageActivity" />
+        <activity android:name=".LoginPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

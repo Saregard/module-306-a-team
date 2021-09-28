@@ -21,7 +21,7 @@ import retrofit2.Callback
 import se.linerotech.quizkampen.GameActivity.Companion.QUIZ_DATA
 import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
 
-class ProfilePage : AppCompatActivity() {
+class ProfilePageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfilePageBinding
     private val db = Firebase.firestore
@@ -44,7 +44,7 @@ class ProfilePage : AppCompatActivity() {
         }
         binding.textViewUserEmail.text = auth.currentUser!!.email
         binding.buttonLogOut.setOnClickListener{
-            val bIntent = Intent (this, LoginPage::class.java)
+            val bIntent = Intent (this, LoginPageActivity::class.java)
             startActivity(bIntent)
             Firebase.auth.signOut()
             finish()
@@ -88,12 +88,12 @@ class ProfilePage : AppCompatActivity() {
 
                         getQuestions(response.body()!!.token)
                     } else {
-                        Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
                     }
                 }
                 override fun onFailure(call: Call<Token>, t: Throwable) {
-                    Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL,t.message.toString())
                 }
 
@@ -114,20 +114,20 @@ class ProfilePage : AppCompatActivity() {
 
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
-                            val intent = Intent(this@ProfilePage, GameActivity::class.java)
+                            val intent = Intent(this@ProfilePageActivity, GameActivity::class.java)
                             intent.putParcelableArrayListExtra(QUIZ_DATA,it)
                             startActivity(intent)
                         }
 
 
                     } else {
-                        Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Qustions>, t: Throwable) {
-                    Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL,t.message.toString())
                 }
             })

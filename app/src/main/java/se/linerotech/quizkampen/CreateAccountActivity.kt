@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_create_account.*
 import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
 import java.lang.Exception
 
-class CreateAccount : AppCompatActivity() {
+class CreateAccountActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateAccountBinding
     val auth = Firebase.auth
