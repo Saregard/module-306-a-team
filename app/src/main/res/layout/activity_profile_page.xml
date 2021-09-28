@@ -107,8 +107,8 @@
             android:layout_height="75dp"
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="Latest score:"
-            android:textColor="#ffffff"
+            android:text="@string/latest_score"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
 
