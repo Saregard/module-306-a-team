@@ -75,7 +75,7 @@ class CreateAccount : AppCompatActivity() {
         }
     }
     private fun createSuccess(){
-        auth.currentUser!!.sendEmailVerification()
+        auth.currentUser?.sendEmailVerification()
         Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
         finish()
     }

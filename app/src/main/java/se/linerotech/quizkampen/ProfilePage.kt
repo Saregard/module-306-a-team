@@ -9,7 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.myquizgame.Backends.GetQuestions
 import com.example.myquizgame.RetrofitClient
-import com.example.myquizgame.models.Qustions
+import com.example.myquizgame.models.Question
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
 import com.google.firebase.auth.ktx.auth
@@ -46,11 +46,11 @@ class ProfilePage : AppCompatActivity() {
         binding.changeInfo.setOnClickListener{
             val db = Firebase.firestore
             db.collection("users")
-                .document(auth.currentUser!!.email.toString())
+                .document(auth.currentUser?.email.toString())
                 .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
 
             db.collection("users")
-                .document(auth.currentUser!!.email.toString())
+                .document(auth.currentUser?.email.toString())
                 .get()
                 .addOnSuccessListener { result ->
                     binding.playerName.text = result.data!!.values.first().toString()
@@ -63,7 +63,7 @@ class ProfilePage : AppCompatActivity() {
 
         }
         db.collection("users")
-            .document(auth.currentUser!!.email.toString())
+            .document(auth.currentUser?.email.toString())
             .get()
             .addOnSuccessListener { result ->
                 binding.playerName.text = result.data?.values?.first().toString()
@@ -73,7 +73,7 @@ class ProfilePage : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-        binding.textViewUserEmail.text = auth.currentUser!!.email
+        binding.textViewUserEmail.text = auth.currentUser?.email
 
         binding.buttonLogOut.setOnClickListener{
             val bIntent = Intent (this, LoginPage::class.java)
@@ -118,10 +118,10 @@ class ProfilePage : AppCompatActivity() {
         GetQuestions
             .instance
             .getQuestions(numberOfQuestions, myToken)
-            .enqueue(object : Callback<Qustions> {
+            .enqueue(object : Callback<Question> {
                 override fun onResponse(
-                    call: Call<Qustions>,
-                    response: retrofit2.Response<Qustions>
+                    call: Call<Question>,
+                    response: retrofit2.Response<Question>
                 ) {
                     if (response.isSuccessful) {
 
@@ -139,7 +139,7 @@ class ProfilePage : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<Qustions>, t: Throwable) {
+                override fun onFailure(call: Call<Question>, t: Throwable) {
                     Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL,t.message.toString())
                 }
