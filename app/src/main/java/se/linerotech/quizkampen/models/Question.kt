@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Question(
-    val response_code: Int,
+    val responseCode: Int,
     val results: List<Result>
 ) : Parcelable

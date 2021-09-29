@@ -1,4 +1,4 @@
-package se.linerotech.quizkampen
+package se.linerotech.quizkampen.Activitys
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -12,6 +12,7 @@ import com.example.myquizgame.models.Result
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.activity_game.*
+import se.linerotech.quizkampen.R
 import se.linerotech.quizkampen.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {
@@ -117,9 +118,9 @@ class GameActivity : AppCompatActivity() {
         enableClick = true
         binding.textViewTimer.isVisible = true
         allRandom = randomAnswer(
-            theQuestion[onClickedQuestion].correct_answer,
-            theQuestion[onClickedQuestion].incorrect_answers.size,
-            theQuestion[onClickedQuestion].incorrect_answers
+            theQuestion[onClickedQuestion].correctAnswer,
+            theQuestion[onClickedQuestion].incorrectAnswers.size,
+            theQuestion[onClickedQuestion].incorrectAnswers
         )
 
         binding.textViewQuestion.text = theQuestion[onClickedQuestion].question
@@ -280,7 +281,7 @@ class GameActivity : AppCompatActivity() {
     }
     private fun start() {
         binding.cardView.isVisible = false
-        binding.questionNumber.text = getString(R.string.question)
+        binding.questionNumber.text = getString(R.string.quest)
         binding.textViewTimer.isVisible = false
         binding.nextQuestionButton.isVisible = false
         binding.nextQuestionButton.text = getString(R.string.next)

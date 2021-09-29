@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "973546314500",
+    "project_id": "quiz-kampen",
+    "storage_bucket": "quiz-kampen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973546314500:android:1064aeee1ed345aa450e51",
+        "android_client_info": {
+          "package_name": "se.linerotech.quizkampen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973546314500-q74i5avv5tto3mtik47vcu7ma4rqjm3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "se.linerotech.quizkampen",
+            "certificate_hash": "33e9c7c74ae220dab645c95173e5fdbc60fc0199"
+          }
+        },
+        {
+          "client_id": "973546314500-ra3ij6s0h92e4fp9t5gldoseduf180mu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "se.linerotech.quizkampen",
+            "certificate_hash": "24ff7f2f257d40f9960a3695b87f167bc81c54ea"
+          }
+        },
+        {
+          "client_id": "973546314500-scma2f726lc55ohv1vb75m5siqomm9hg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "se.linerotech.quizkampen",
+            "certificate_hash": "a965fb210330f49c407c04bc8ce88321df4a0ab7"
+          }
+        },
+        {
+          "client_id": "973546314500-bagn1tgt6vbbfnsbbc1krf0urrsk3bcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwCg9V2TShmF57Mhfq0PcGC3dX7W-8PF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973546314500-bagn1tgt6vbbfnsbbc1krf0urrsk3bcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

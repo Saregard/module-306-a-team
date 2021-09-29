@@ -1,4 +1,4 @@
-package se.linerotech.quizkampen
+package se.linerotech.quizkampen.Activitys
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +14,13 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_create_account.*
 
 import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
+import se.linerotech.quizkampen.utils.GamePlayAccess
 import java.lang.Exception
 
 class CreateAccount : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateAccountBinding
-
+    private var validation = GamePlayAccess()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateAccountBinding.inflate(layoutInflater)
@@ -27,7 +28,7 @@ class CreateAccount : AppCompatActivity() {
         accountCreation()
 
         goBackToLoginScreen.setOnClickListener{
-            val bIntent = Intent (this, LoginPage::class.java)
+            val bIntent = Intent (this, LoginPageActivity::class.java)
             startActivity(bIntent)
 
 
@@ -43,16 +44,8 @@ class CreateAccount : AppCompatActivity() {
         binding.buttonSignUp.setOnClickListener {
             val email = binding.editTextSignUpEmail.text.toString().trim(){ it <= ' ' }
             val password = binding.editTextSignUpPassword.text.toString().trim(){ it <= ' ' }
-
-            if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.editTextSignUpEmail.error = "Needs to be and email"
-            }
-            if (TextUtils.isEmpty(email)) {
-                binding.editTextSignUpEmail.error = "Email can not be empty"
-            }
-            if (TextUtils.isEmpty(password)) {
-                binding.editTextSignUpPassword.error = "Password can not be empty"
-            } else {
+            if(validation.validation(email, binding.editTextSignUpPassword, password, binding.editTextSignUpEmail))
+             {
                 auth.createUserWithEmailAndPassword(
                     binding.editTextSignUpEmail.text.toString(),
                     binding.editTextSignUpPassword.text.toString()
@@ -64,7 +57,7 @@ class CreateAccount : AppCompatActivity() {
                             auth.currentUser!!.sendEmailVerification()
                             Toast.makeText(this, "Success create", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this, LoginPage::class.java)
+                            val intent = Intent(this, LoginPageActivity::class.java)
                             Log.d("Sign in", "createUserWithEmail:success")
                             startActivity(intent)
                             finish()
