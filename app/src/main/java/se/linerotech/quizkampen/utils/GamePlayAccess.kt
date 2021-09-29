@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.myquizgame.RetrofitClient
-import com.example.myquizgame.models.Qustions
+import com.example.myquizgame.models.Question
 import com.example.myquizgame.models.Result
 import com.example.myquizgame.models.Token
 import retrofit2.Call
@@ -45,10 +45,10 @@ class GamePlayAccess {
         RetrofitClient
             .instanceTwo
             .getQuestions(numberOfQuestions, myToken)
-            .enqueue(object : Callback<Qustions> {
+            .enqueue(object : Callback<Question> {
                 override fun onResponse(
-                    call: Call<Qustions>,
-                    response: Response<Qustions>
+                    call: Call<Question>,
+                    response: Response<Question>
                 ) {
                     if (response.isSuccessful) {
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
@@ -63,7 +63,7 @@ class GamePlayAccess {
                     }
                 }
 
-                override fun onFailure(call: Call<Qustions>, t: Throwable) {
+                override fun onFailure(call: Call<Question>, t: Throwable) {
                     Toast.makeText(context, "Couldn't receive data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL, t.message.toString())
                 }
