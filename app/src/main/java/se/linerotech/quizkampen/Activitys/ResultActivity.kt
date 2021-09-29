@@ -1,10 +1,10 @@
-package se.linerotech.quizkampen
+package se.linerotech.quizkampen.Activitys
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_profile_page.*
-import se.linerotech.quizkampen.GameActivity.Companion.SCORE
+import se.linerotech.quizkampen.Activitys.GameActivity.Companion.SCORE
 import se.linerotech.quizkampen.databinding.ActivityResultBinding
 import se.linerotech.quizkampen.utils.GamePlayAccess
 

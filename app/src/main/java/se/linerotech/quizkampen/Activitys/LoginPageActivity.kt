@@ -1,4 +1,4 @@
-package se.linerotech.quizkampen
+package se.linerotech.quizkampen.Activitys
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,11 +11,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import se.linerotech.quizkampen.databinding.ActivityLoginPageBinding
+import se.linerotech.quizkampen.utils.GamePlayAccess
 import java.lang.Exception
 
 class LoginPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginPageBinding
+    private var validation = GamePlayAccess()
     private val auth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,23 +39,8 @@ class LoginPageActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener {
             val email = binding.editTextEmail.text.toString().trim { it <= ' ' }
             val password = binding.editTextPassword.text.toString().trim { it <= ' ' }
-
-            if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.editTextEmail.error = "Needs to be and email"
-            }
-            if (TextUtils.isEmpty(email)) {
-                binding.editTextEmail.error = "Email can not be empty"
-            }
-            if (TextUtils.isEmpty(password)) {
-                binding.editTextPassword.error = "Password can not be empty"
-            }
-            if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(email)) {
-                binding.editTextEmail.error = "Email can not be empty"
-            }
-            if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-                binding.editTextEmail.error = "Email can not be empty"
-                binding.editTextPassword.error = "Password can not be empty"
-            } else {
+           if(validation.validation(email, binding.editTextPassword, password, binding.editTextEmail))
+              {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -83,7 +70,7 @@ class LoginPageActivity : AppCompatActivity() {
     private fun clicklistener() {
         binding.buttonlickToCreateAccount.setOnClickListener {
             Log.d("MainActivity", "Create account")
-            val intent = Intent(this, CreateAccountActivity::class.java)
+            val intent = Intent(this, CreateAccount::class.java)
             startActivity(intent)
         }
     }

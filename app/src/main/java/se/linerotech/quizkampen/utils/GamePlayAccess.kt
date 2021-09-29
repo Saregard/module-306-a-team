@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.myquizgame.RetrofitClient
@@ -14,10 +17,37 @@ import com.example.myquizgame.models.Token
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import se.linerotech.quizkampen.GameActivity
-import se.linerotech.quizkampen.ResultActivity
+import se.linerotech.quizkampen.Activitys.GameActivity
+import se.linerotech.quizkampen.Activitys.ResultActivity
 
 class GamePlayAccess {
+
+
+    fun validation(email:String, passwordEditText: EditText, password: String, emailEditText: EditText): Boolean {
+        var check = false
+        if (!TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.error = "Needs to be an email"
+        }else
+        if (TextUtils.isEmpty(email)) {
+            emailEditText.error = "Email can not be empty"
+        }else
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.error = "Password can not be empty"
+        }else
+        if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(email)) {
+            emailEditText.error = "Email can not be empty"
+        }else
+        if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+            emailEditText.error = "Email can not be empty"
+            passwordEditText.error = "Password can not be empty"
+        } else {
+            check = true
+        }
+        return check
+    }
+
+
+
 
     fun getToken(context: Context, activity: Activity, intent: Intent, bundle: Bundle?) {
         RetrofitClient
