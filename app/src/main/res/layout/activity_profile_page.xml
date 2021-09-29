@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/quiz_blue"
+    android:background="#272343"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/profile"
         android:textAlignment="center"
-        android:textColor="@color/quiz_orange"
+        android:textColor="#ffa384"
         android:textSize="30sp"
         android:textStyle="bold"/>
 
@@ -39,7 +39,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/profile_image"
             android:includeFontPadding="false"
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
             android:id="@+id/textViewUserEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -107,7 +107,7 @@
             android:layout_height="75dp"
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="Latest score:"
+            android:text="@string/latest_score"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -119,8 +119,8 @@
         android:id="@+id/buttonPlay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="@color/quiz_orange"
-        android:textColor="@color/quiz_blue"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
         android:text="@string/play"
         android:textAlignment="center"
         android:clickable="true"
@@ -130,8 +130,8 @@
         android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="@color/quiz_orange"
-        android:textColor="@color/quiz_blue"
+        android:backgroundTint="#ffa384"
+        android:textColor="#272343"
         android:text="@string/log_out"
         android:textAlignment="center"
         android:clickable="true"
