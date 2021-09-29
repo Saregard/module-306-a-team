@@ -19,7 +19,6 @@ import se.linerotech.quizkampen.databinding.ActivityCreateAccountBinding
 import java.lang.Exception
 
 class CreateAccount : AppCompatActivity() {
-
     private lateinit var binding: ActivityCreateAccountBinding
     val auth = Firebase.auth
 
@@ -33,18 +32,13 @@ class CreateAccount : AppCompatActivity() {
 //            val bIntent = Intent (this, LoginPage::class.java)
 //            startActivity(bIntent)
             finish()
-
-
         }
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
-
     private fun accountCreation() {
-
-
         binding.buttonSignUp.setOnClickListener {
             val email = binding.editTextSignUpEmail.text.toString().trim(){ it <= ' ' }
             val password = binding.editTextSignUpPassword.text.toString().trim(){ it <= ' ' }
@@ -94,5 +88,4 @@ class CreateAccount : AppCompatActivity() {
             ).show()
         }
     }
-
 }

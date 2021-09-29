@@ -25,21 +25,15 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         val userScore = intent.getIntExtra(SCORE, 0)
         binding.score.text = "Score $userScore/10"
-
-
         binding.buttonPlay.setOnClickListener {
             gameQuestion()
-
-
         }
         binding.buttonLogOut.setOnClickListener {
 //            val bIntent = Intent(this, ProfilePage::class.java)
 //            startActivity(bIntent)
             finish()
-
         }
     }
 
@@ -47,7 +41,6 @@ class ResultActivity : AppCompatActivity() {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
-
     private fun gameQuestion() {
         RetrofitClient
             .instance
@@ -55,19 +48,16 @@ class ResultActivity : AppCompatActivity() {
             .enqueue(object : Callback<Token> {
                 override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
                     if (response.isSuccessful) {
-
                         questions(response.body()!!.token)
                     } else {
                         Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(FAIL,response.errorBody()!!.string())
                     }
                 }
-
                 override fun onFailure(call: Call<Token>, t: Throwable) {
                     Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(FAIL,t.message.toString())
                 }
-
             })
     }
 
@@ -82,7 +72,6 @@ class ResultActivity : AppCompatActivity() {
                     response: retrofit2.Response<Question>
                 ) {
                     if (response.isSuccessful) {
-
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
                             val intent = Intent(this@ResultActivity, GameActivity::class.java)
@@ -90,13 +79,11 @@ class ResultActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }
-                        
                     } else {
                         Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(FAIL,response.errorBody()!!.string())
                     }
                 }
-
                 override fun onFailure(call: Call<Question>, t: Throwable) {
                     Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(FAIL,t.message.toString())

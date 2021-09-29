@@ -41,7 +41,6 @@ class GameActivity : AppCompatActivity() {
             showQuestionsOrNot(false)
 
             questionPreview(listOfRepos, listOfRepos.size)
-
         }
     }
     private fun selectItem():String {
@@ -222,10 +221,6 @@ class GameActivity : AppCompatActivity() {
                             Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
                             score++
                         }
-
-
-
-
                     }
                 }
                 timer.start()
@@ -234,7 +229,6 @@ class GameActivity : AppCompatActivity() {
         }
     }
     private fun displayAnswers(questionData:List<String>,numberAnswers:Int) {
-
         if (numberAnswers == 5) {
             binding.textViewAnswerA.text =
                 randomQuestion[0]
@@ -274,14 +268,11 @@ class GameActivity : AppCompatActivity() {
                     randomQuestion[1]
                         .replace(regexTextFormat, toChar.toString())
             }
-
             binding.textViewAnswerC.isVisible = false
             binding.gamePlayCardViewAnswerC.isVisible = false
             binding.textViewAnswerD.isVisible = false
             binding.gamePlayCardViewAnswerD.isVisible = false
-
         }
-
     }
     private fun randomAnswer(correctAnswer:String,amountOfQuestions:Int,questionsToGenerate:List<String>):List<String>{
         val listOfItems= mutableListOf<String>()

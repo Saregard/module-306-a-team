@@ -29,19 +29,16 @@ class ProfilePage : AppCompatActivity() {
     private val db = Firebase.firestore
     private val auth = Firebase.auth
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val myScore = intent.getIntExtra(GameActivity.SCORE, 0)
         binding.score.text = "Latest Score: $myScore/10"
 
         binding.buttonPlay.setOnClickListener {
             getMyToken()
-
         }
         binding.changeInfo.setOnClickListener{
             val db = Firebase.firestore
@@ -55,19 +52,16 @@ class ProfilePage : AppCompatActivity() {
                 .addOnSuccessListener { result ->
                     binding.playerName.text = result.data!!.values.first().toString()
 
-
                 }
                 .addOnFailureListener { exception ->
                     Log.w(TAG, "Error getting documents.", exception)
                 }
-
         }
         db.collection("users")
             .document(auth.currentUser?.email.toString())
             .get()
             .addOnSuccessListener { result ->
                 binding.playerName.text = result.data?.values?.first().toString()
-
 
             }
             .addOnFailureListener { exception ->
@@ -81,15 +75,12 @@ class ProfilePage : AppCompatActivity() {
             Firebase.auth.signOut()
             finish()
 
-
-
         }
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
-
 
     private fun getMyToken() {
         RetrofitClient
@@ -98,7 +89,6 @@ class ProfilePage : AppCompatActivity() {
             .enqueue(object : Callback<Token> {
                 override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
                     if (response.isSuccessful) {
-
                         getQuestions(response.body()!!.token)
                     } else {
                         Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
@@ -109,7 +99,6 @@ class ProfilePage : AppCompatActivity() {
                     Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL,t.message.toString())
                 }
-
             })
     }
 
@@ -124,7 +113,6 @@ class ProfilePage : AppCompatActivity() {
                     response: retrofit2.Response<Question>
                 ) {
                     if (response.isSuccessful) {
-
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
                             val intent = Intent(this@ProfilePage, GameActivity::class.java)
@@ -132,18 +120,15 @@ class ProfilePage : AppCompatActivity() {
                             startActivity(intent)
                         }
 
-
                     } else {
                         Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                         Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
                     }
                 }
-
                 override fun onFailure(call: Call<Question>, t: Throwable) {
                     Toast.makeText(this@ProfilePage, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
                     Log.e(ResultActivity.FAIL,t.message.toString())
                 }
             })
     }
-
 }

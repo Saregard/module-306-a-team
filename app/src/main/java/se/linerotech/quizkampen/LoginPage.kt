@@ -30,7 +30,6 @@ class LoginPage : AppCompatActivity() {
         } else {
         authentication()
         newAccount()
-
         }
      }
 
