@@ -27,20 +27,20 @@ class GamePlayAccess {
                 override fun onResponse(call: Call<Token>, response: Response<Token>) {
                     if (response.isSuccessful) {
                         getQuestion(response.body()!!.token, activity, intent, context, bundle)
-                    }else {
+                    } else {
                         Toast.makeText(context, "Couldn't receive data", Toast.LENGTH_SHORT).show()
-                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
+                        Log.e(ResultActivity.FAIL, response.errorBody()!!.string())
                     }
                 }
 
                 override fun onFailure(call: Call<Token>, t: Throwable) {
                     Toast.makeText(context, "Couldn't receive data", Toast.LENGTH_SHORT).show()
-                    Log.e(ResultActivity.FAIL,t.message.toString())
+                    Log.e(ResultActivity.FAIL, t.message.toString())
                 }
             })
     }
 
-    fun getQuestion (myToken: String, activity: Activity, intent: Intent, context: Context, bundle: Bundle?) {
+    fun getQuestion(myToken: String, activity: Activity, intent: Intent, context: Context, bundle: Bundle?) {
         val numberOfQuestions = "10"
         RetrofitClient
             .instanceTwo
@@ -50,23 +50,22 @@ class GamePlayAccess {
                     call: Call<Qustions>,
                     response: Response<Qustions>
                 ) {
-                    if (response.isSuccessful){
+                    if (response.isSuccessful) {
                         val listOfRepos = response.body()?.results as? ArrayList<Result>
                         listOfRepos?.let {
                             intent.putParcelableArrayListExtra(GameActivity.QUIZ_DATA, it)
                             startActivity(context, intent, bundle)
                             activity.finish()
                         }
-                    }else {
+                    } else {
                         Toast.makeText(context, "Couldn't receive data", Toast.LENGTH_SHORT).show()
-                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
+                        Log.e(ResultActivity.FAIL, response.errorBody()!!.string())
                     }
-
                 }
 
                 override fun onFailure(call: Call<Qustions>, t: Throwable) {
                     Toast.makeText(context, "Couldn't receive data", Toast.LENGTH_SHORT).show()
-                    Log.e(ResultActivity.FAIL,t.message.toString())
+                    Log.e(ResultActivity.FAIL, t.message.toString())
                 }
             })
     }

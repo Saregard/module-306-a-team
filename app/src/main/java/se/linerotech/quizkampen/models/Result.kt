@@ -11,4 +11,4 @@ data class Result(
     val incorrect_answers: List<String>,
     val question: String,
     val type: String
-):Parcelable
+) : Parcelable

@@ -1,24 +1,15 @@
 package se.linerotech.quizkampen
 
-
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.example.myquizgame.RetrofitClient
-import com.example.myquizgame.models.Qustions
-import com.example.myquizgame.models.Result
-import com.example.myquizgame.models.Token
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.activity_profile_page.*
-import retrofit2.Call
-import retrofit2.Callback
-import se.linerotech.quizkampen.GameActivity.Companion.QUIZ_DATA
 import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
 import se.linerotech.quizkampen.utils.GamePlayAccess
 
@@ -27,7 +18,6 @@ class ProfilePageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfilePageBinding
     private val db = Firebase.firestore
     private val auth = Firebase.auth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +36,8 @@ class ProfilePageActivity : AppCompatActivity() {
             changeUserName()
         }
         binding.textViewUserEmail.text = auth.currentUser!!.email
-        binding.buttonLogOut.setOnClickListener{
-            val bIntent = Intent (this, LoginPageActivity::class.java)
+        binding.buttonLogOut.setOnClickListener {
+            val bIntent = Intent(this, LoginPageActivity::class.java)
             startActivity(bIntent)
             Firebase.auth.signOut()
             finish()
@@ -59,7 +49,7 @@ class ProfilePageActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun changeUserName(){
+    private fun changeUserName() {
         db.collection("users")
             .document(auth.currentUser!!.email.toString())
             .set(binding.editTextName.text.toString() to binding.editTextPhone.text.toString())
@@ -67,10 +57,10 @@ class ProfilePageActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
             }
-       loadUserDetails()
+        loadUserDetails()
     }
 
-    private fun loadUserDetails(){
+    private fun loadUserDetails() {
         db.collection("users")
             .document(auth.currentUser!!.email.toString())
             .get()
@@ -80,7 +70,5 @@ class ProfilePageActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-
     }
-
 }
