@@ -1,6 +1,6 @@
 package com.example.myquizgame
 
-import com.example.myquizgame.models.Qustions
+import com.example.myquizgame.models.Question
 import com.example.myquizgame.models.Token
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,4 +12,12 @@ interface EndpointToken {
         @Query("command") command: String
 
     ): Call<Token>
+}
+
+interface EndpointQuestions {
+    @GET("/api.php")
+    fun getQuestions(
+        @Query("amount") amount: String,
+        @Query("token") token: String
+    ): Call<Question>
 }
