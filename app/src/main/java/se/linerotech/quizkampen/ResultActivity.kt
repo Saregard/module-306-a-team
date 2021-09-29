@@ -17,6 +17,7 @@ import se.linerotech.quizkampen.GameActivity.Companion.SCORE
 
 
 import se.linerotech.quizkampen.databinding.ActivityResultBinding
+import se.linerotech.quizkampen.utils.GamePlayAccess
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
@@ -31,7 +32,9 @@ class ResultActivity : AppCompatActivity() {
 
 
         binding.buttonPlay.setOnClickListener {
-            getMyToken()
+            val gamePlayAccess = GamePlayAccess()
+            val intent = Intent(this, GameActivity::class.java)
+            gamePlayAccess.getToken(this, this@ResultActivity, intent, savedInstanceState)
 
 
         }
@@ -46,61 +49,6 @@ class ResultActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun getMyToken() {
-        RetrofitClient
-            .instance
-            .getToken("request")
-            .enqueue(object : Callback<Token> {
-                override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
-                    if (response.isSuccessful) {
-
-                        getQuestions(response.body()!!.token)
-                    } else {
-                        Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                        Log.e(FAIL,response.errorBody()!!.string())
-                    }
-                }
-
-                override fun onFailure(call: Call<Token>, t: Throwable) {
-                    Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                    Log.e(FAIL,t.message.toString())
-                }
-
-            })
-    }
-
-    private fun getQuestions(myToken: String) {
-        val numberOfQuestions="10"
-        RetrofitClient
-            .instanceTwo
-            .getQuestions(numberOfQuestions, myToken)
-            .enqueue(object : Callback<Qustions> {
-                override fun onResponse(
-                    call: Call<Qustions>,
-                    response: retrofit2.Response<Qustions>
-                ) {
-                    if (response.isSuccessful) {
-
-                        val listOfRepos = response.body()?.results as? ArrayList<Result>
-                        listOfRepos?.let {
-                            val intent = Intent(this@ResultActivity, GameActivity::class.java)
-                            intent.putParcelableArrayListExtra(GameActivity.QUIZ_DATA, it)
-                            startActivity(intent)
-                            finish()
-                        }
-                        
-                    } else {
-                        Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                        Log.e(FAIL,response.errorBody()!!.string())
-                    }
-                }
-
-                override fun onFailure(call: Call<Qustions>, t: Throwable) {
-                    Toast.makeText(this@ResultActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                    Log.e(FAIL,t.message.toString())
-                }
-            })
-    }
     companion object{
         const val FAIL="fail"
     }

@@ -20,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import se.linerotech.quizkampen.GameActivity.Companion.QUIZ_DATA
 import se.linerotech.quizkampen.databinding.ActivityProfilePageBinding
+import se.linerotech.quizkampen.utils.GamePlayAccess
 
 class ProfilePageActivity : AppCompatActivity() {
 
@@ -37,7 +38,9 @@ class ProfilePageActivity : AppCompatActivity() {
         val myScore = intent.getIntExtra(GameActivity.SCORE, 0)
         binding.score.text = "Latest Score: $myScore/10"
         binding.buttonPlay.setOnClickListener {
-            getMyToken()
+            val gamePlayAccess = GamePlayAccess()
+            val intent = Intent(this, GameActivity::class.java)
+            gamePlayAccess.getToken(this, this@ProfilePageActivity, intent, savedInstanceState)
         }
         binding.changeInfo.setOnClickListener {
             changeUserName()
@@ -66,6 +69,7 @@ class ProfilePageActivity : AppCompatActivity() {
             }
        loadUserDetails()
     }
+
     private fun loadUserDetails(){
         db.collection("users")
             .document(auth.currentUser!!.email.toString())
@@ -77,60 +81,6 @@ class ProfilePageActivity : AppCompatActivity() {
                 Log.w(TAG, "Error getting documents.", exception)
             }
 
-    }
-    private fun getMyToken() {
-        RetrofitClient
-            .instance
-            .getToken("request")
-            .enqueue(object : Callback<Token> {
-                override fun onResponse(call: Call<Token>, response: retrofit2.Response<Token>) {
-                    if (response.isSuccessful) {
-
-                        getQuestions(response.body()!!.token)
-                    } else {
-                        Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
-                    }
-                }
-                override fun onFailure(call: Call<Token>, t: Throwable) {
-                    Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                    Log.e(ResultActivity.FAIL,t.message.toString())
-                }
-
-            })
-    }
-
-    private fun getQuestions(myToken: String) {
-        val numberOfQuestions="10"
-        RetrofitClient
-            .instanceTwo
-            .getQuestions(numberOfQuestions, myToken)
-            .enqueue(object : Callback<Qustions> {
-                override fun onResponse(
-                    call: Call<Qustions>,
-                    response: retrofit2.Response<Qustions>
-                ) {
-                    if (response.isSuccessful) {
-
-                        val listOfRepos = response.body()?.results as? ArrayList<Result>
-                        listOfRepos?.let {
-                            val intent = Intent(this@ProfilePageActivity, GameActivity::class.java)
-                            intent.putParcelableArrayListExtra(QUIZ_DATA,it)
-                            startActivity(intent)
-                        }
-
-
-                    } else {
-                        Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                        Log.e(ResultActivity.FAIL,response.errorBody()!!.string())
-                    }
-                }
-
-                override fun onFailure(call: Call<Qustions>, t: Throwable) {
-                    Toast.makeText(this@ProfilePageActivity, "Couldn't recieve data", Toast.LENGTH_SHORT).show()
-                    Log.e(ResultActivity.FAIL,t.message.toString())
-                }
-            })
     }
 
 }
