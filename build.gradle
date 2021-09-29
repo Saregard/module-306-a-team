@@ -6,8 +6,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.2"
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30'
+        classpath 'com.android.tools.build:gradle:7.0.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
         classpath 'com.google.gms:google-services:4.3.10'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -17,13 +17,16 @@ buildscript {
 plugins {
     //Terminal commands: "gradlew ktlintCheck" "gradlew ktlintFormat"
     id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
+
 }
+
+
 
 allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+
     }
     apply plugin: "org.jlleitschuh.gradle.ktlint"
 }

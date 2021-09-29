@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">quiz kampen</string>
-    <string name="Login">login</string>
-    <string name="Password">password</string>
-    <string name="Email_address">email_address</string>
+    <string name="login">Login</string>
+    <string name="emailAddress">Email_address</string>
     <string name="quiz_2021">Quiz 2021</string>
-    <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot password</string>
     <string name="create_account">Create account</string>
@@ -25,4 +23,5 @@
     <string name="play_again">Play again!</string>
     <string name="quit_game">Quit Game!</string>
     <string name="name">Name</string>
+    <string name="change_info">Change Info</string>
 </resources>

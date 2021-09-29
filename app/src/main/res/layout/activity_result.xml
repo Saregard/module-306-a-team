@@ -21,7 +21,7 @@
         android:layout_marginTop="50dp"
         android:text="@string/congratulations_your_score_is"
         android:textAlignment="center"
-        android:textColor="#ffa384"
+        android:textColor="@color/quiz_orange"
         android:textSize="40sp"
         android:textStyle="bold"/>
 
@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textAlignment="center"
         android:textStyle="bold"/>
@@ -41,8 +41,8 @@
         android:id="@+id/buttonPlay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="#ffa384"
-        android:textColor="#272343"
+        android:backgroundTint="@color/quiz_orange"
+        android:textColor="@color/quiz_blue"
         android:text="@string/play_again"
         android:textAlignment="center"
         android:clickable="true"
@@ -54,12 +54,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#ffa384"
+        android:backgroundTint="@color/quiz_orange"
         android:clickable="true"
         android:paddingTop="14dp"
         android:text="@string/quit_game"
         android:textAlignment="center"
-        android:textColor="#272343" />
+        android:textColor="@color/quiz_blue" />
 </LinearLayout>
 
 
