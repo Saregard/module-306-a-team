@@ -19,7 +19,8 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
     private lateinit var allRandom:List<String>
-    private var mySelectedItem:Pair<String,Int>?=null
+//    private var mySelectedItem:Pair<String,Int>?=null
+    private var mySelectedItem = mutableListOf<String>()
     private lateinit var timer:CountDownTimer
     private var enableClick=false
     private var onClickedQuestion=0
@@ -55,7 +56,7 @@ class GameActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerA.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[0]
-                mySelectedItem = Pair(selectedItem, 0)
+                mySelectedItem = mutableListOf(selectedItem, "0")
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.WHITE)
@@ -70,7 +71,7 @@ class GameActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerB.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[1]
-                mySelectedItem = Pair(selectedItem, 1)
+                mySelectedItem = mutableListOf(selectedItem, "1")
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.WHITE)
@@ -85,7 +86,7 @@ class GameActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerC.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[2]
-                mySelectedItem = Pair(selectedItem, 2)
+                mySelectedItem = mutableListOf(selectedItem, "2")
                 binding.gamePlayCardViewAnswerC.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
@@ -100,7 +101,7 @@ class GameActivity : AppCompatActivity() {
         binding.gamePlayCardViewAnswerD.setOnClickListener {
             if (enableClick) {
                 selectedItem = allRandom[3]
-                mySelectedItem = Pair(selectedItem, 3)
+                mySelectedItem = mutableListOf(selectedItem, "3")
                 binding.gamePlayCardViewAnswerD.setCardBackgroundColor(Color.GRAY)
                 binding.gamePlayCardViewAnswerA.setCardBackgroundColor(Color.WHITE)
                 binding.gamePlayCardViewAnswerB.setCardBackgroundColor(Color.WHITE)
@@ -150,10 +151,10 @@ class GameActivity : AppCompatActivity() {
         binding.questionNumber.text="Finished Questions:$items / $onClickedQuestion"
         binding.textViewTimer.isVisible=false
 
-        checkItem(mySelectedItem?.second.toString(), Color.RED)
+        checkItem(mySelectedItem[1], Color.RED)
         checkItem(allRandom.last(), Color.GREEN)
 
-        if(mySelectedItem?.second.toString()==allRandom.last()){
+        if(mySelectedItem[1] == allRandom.last()){
             Toast.makeText(this@GameActivity, "Congratulations , Correct answer!", Toast.LENGTH_SHORT).show()
             score++
         }
