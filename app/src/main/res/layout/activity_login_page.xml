@@ -7,14 +7,14 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/quiz_blue"
-    tools:context=".LoginPageActivity">
+    tools:context=".LoginPage">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:text="@string/app_name"
+        android:text="@string/quiz_2021"
         android:textAlignment="center"
         android:textSize="40sp"
         android:textColor="@color/white"
@@ -26,10 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
-        android:hint="@string/email"
+        android:hint="@string/emailAddress"
         android:textColorHint="@color/quiz_orange"
         android:textColor="@color/quiz_orange"
-        android:inputType="textEmailAddress"
         android:textAlignment="center" />
 
     <EditText
@@ -41,7 +40,6 @@
         android:hint="@string/password"
         android:textColorHint="@color/quiz_orange"
         android:textColor="@color/quiz_orange"
-        android:inputType="textPassword"
         android:textAlignment="center" />
 
     <Button
@@ -53,7 +51,7 @@
         android:textAlignment="center"
         android:clickable="true"
         android:paddingTop="14dp"
-        android:text="@string/Login" />
+        android:text="@string/login" />
 
     <Button
         android:id="@+id/buttonlickToCreateAccount"

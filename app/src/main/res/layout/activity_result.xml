@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/quiz_blue"
+    android:background="#272343"
     android:orientation="vertical">
 
     <ImageView
@@ -31,7 +32,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:textColor="@color/quiz_orange"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textAlignment="center"
         android:textStyle="bold"/>
@@ -41,9 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:backgroundTint="@color/quiz_orange"
-        android:textColor="#272343"
+        android:textColor="@color/quiz_blue"
         android:text="@string/play_again"
         android:textAlignment="center"
+        android:clickable="true"
         android:paddingTop="14dp"
         android:layout_marginTop="10dp"/>
 
@@ -53,10 +55,11 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/quiz_orange"
+        android:clickable="true"
         android:paddingTop="14dp"
         android:text="@string/quit_game"
         android:textAlignment="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/quiz_blue" />
 </LinearLayout>
 
 

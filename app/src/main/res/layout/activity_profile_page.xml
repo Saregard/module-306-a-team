@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/profile"
         android:textAlignment="center"
-        android:textColor="#ffa384"
+        android:textColor="@color/quiz_orange"
         android:textSize="30sp"
         android:textStyle="bold"/>
 
@@ -28,7 +28,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/anonymusavatar"
-            android:background="@drawable/optiondesign"
+            android:background="@color/quiz_orange"
             android:layout_centerVertical="true"/>
 
         <TextView
@@ -49,7 +49,11 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/profile_image"
+            android:layout_below="@+id/player_name"
+            android:includeFontPadding="false"
+            android:layout_marginStart="10dp"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -93,7 +97,9 @@
             android:id="@+id/changeInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Info"/>
+            android:backgroundTint="@color/quiz_orange"
+            android:textColor="@color/quiz_blue"
+            android:text="@string/change_info"/>
     </LinearLayout>
 
 
@@ -105,9 +111,10 @@
             android:id="@+id/score"
             android:layout_width="match_parent"
             android:layout_height="75dp"
+            android:layout_gravity=""
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="@string/latest_score"
+            android:text="Latest score:"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -119,8 +126,8 @@
         android:id="@+id/buttonPlay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="#ffa384"
-        android:textColor="#272343"
+        android:backgroundTint="@color/quiz_orange"
+        android:textColor="@color/quiz_blue"
         android:text="@string/play"
         android:textAlignment="center"
         android:clickable="true"
@@ -130,8 +137,8 @@
         android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="#ffa384"
-        android:textColor="#272343"
+        android:backgroundTint="@color/quiz_orange"
+        android:textColor="@color/quiz_blue"
         android:text="@string/log_out"
         android:textAlignment="center"
         android:clickable="true"
