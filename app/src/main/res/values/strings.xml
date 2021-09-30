@@ -24,4 +24,14 @@
     <string name="quit_game">Quit Game!</string>
     <string name="name">Name</string>
     <string name="change_info">Change Info</string>
+    <string name="next_question">Next Question</string>
+    <string name="timer">Timer</string>
+    <string name="answer_d">Answer D</string>
+    <string name="answer_c">Answer C</string>
+    <string name="answer_b">Answer B</string>
+    <string name="answer_a">Answer A</string>
+    <string name="rank_1500">Rank : 1500 |</string>
+    <string name="level_hard">Level: Hard |</string>
+    <string name="latest_score">Latest score:</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
