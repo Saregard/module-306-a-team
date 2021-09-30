@@ -1,4 +1,4 @@
-package se.linerotech.quizkampen.Activitys
+package se.linerotech.quizkampen.activitys
 
 import android.content.Intent
 import android.content.res.ColorStateList

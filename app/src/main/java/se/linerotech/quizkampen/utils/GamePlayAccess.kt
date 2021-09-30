@@ -17,8 +17,8 @@ import com.example.myquizgame.models.Token
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import se.linerotech.quizkampen.Activitys.GameActivity
-import se.linerotech.quizkampen.Activitys.ResultActivity
+import se.linerotech.quizkampen.activitys.GameActivity
+import se.linerotech.quizkampen.activitys.ResultActivity
 
 class GamePlayAccess {
 

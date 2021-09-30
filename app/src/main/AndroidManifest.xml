@@ -10,12 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizKampen">
         <activity
-            android:name=".Activitys.GameActivity"
+            android:name=".activitys.GameActivity"
             android:exported="true" />
-        <activity android:name=".Activitys.ResultActivity" />
-        <activity android:name=".Activitys.CreateAccount" />
-        <activity android:name=".Activitys.ProfilePageActivity" />
-        <activity android:name=".Activitys.LoginPageActivity">
+        <activity android:name=".activitys.ResultActivity" />
+        <activity android:name=".activitys.CreateAccount" />
+        <activity android:name=".activitys.ProfilePageActivity" />
+        <activity android:name=".activitys.LoginPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
