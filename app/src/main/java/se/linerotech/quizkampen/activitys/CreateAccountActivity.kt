@@ -1,9 +1,8 @@
-package se.linerotech.quizkampen.Activitys
+package se.linerotech.quizkampen.activitys
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast

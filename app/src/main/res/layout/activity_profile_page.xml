@@ -22,7 +22,6 @@
         android:layout_height="200dp"
         android:padding="20dp">
 
-
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="100dp"
@@ -74,15 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:hint="Phone Number"
+            android:hint="@string/phone_number"
             app:prefixText="+46"
             android:id="@+id/phone_number">
 
@@ -102,7 +99,6 @@
             android:text="@string/change_info"/>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -114,13 +110,11 @@
             android:layout_gravity=""
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="Latest score:"
+            android:text="@string/latest_score"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
-
     </LinearLayout>
-
 
     <Button
         android:id="@+id/buttonPlay"
@@ -133,6 +127,7 @@
         android:clickable="true"
         android:paddingTop="14dp"
         android:layout_marginTop="10dp" />
+
     <Button
         android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
@@ -144,7 +139,4 @@
         android:clickable="true"
         android:paddingTop="14dp"
         android:layout_marginTop="10dp" />
-
-
-
 </LinearLayout>

@@ -1,10 +1,8 @@
-package se.linerotech.quizkampen.Activitys
+package se.linerotech.quizkampen.activitys
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
-import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException

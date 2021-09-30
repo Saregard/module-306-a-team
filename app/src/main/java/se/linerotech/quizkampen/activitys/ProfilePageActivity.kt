@@ -1,4 +1,4 @@
-package se.linerotech.quizkampen.Activitys
+package se.linerotech.quizkampen.activitys
 
 import android.content.ContentValues.TAG
 import android.content.Intent
