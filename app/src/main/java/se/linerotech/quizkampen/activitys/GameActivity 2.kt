@@ -36,8 +36,7 @@ class GameActivity : AppCompatActivity() {
         setContentView(binding.root)
         start()
         val listOfRepos = intent.getParcelableArrayListExtra<Result>(QUIZ_DATA)
-        if(!listOfRepos.isNullOrEmpty())
-        {
+        listOfRepos?.let {
             startAlert(listOfRepos, listOfRepos.size)
 
             showQuestionsOrNot(false)
